@@ -53,4 +53,7 @@ module.exports = {
         '@/scss/main.scss',
     ]],
   ],
+  env: {
+    JSONDATAPATH: '/data/'
+  },
 }

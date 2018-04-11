@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <div class="body">
+    <div class="block">
       <div class="graphic" v-on:animationend="transitionend" v-on:transitionend="transitionend">
         <div class="indicator" :class="stateClass" ></div>
         <div class="image" :style="{backgroundImage: imageContents}" :class="stateClass"/>
@@ -239,6 +239,12 @@ export default {
         this.textContents = user.name;
         this.imageContents = `url(${user.avatar_url})`;
       })(),
+      // データ取得
+      (async () => {
+        const {data} = await axios.get(`${process.env.JSONDATAPATH}dummy.json`)
+        console.log (data);
+      })(),
+      // 処理が早く終わりすぎたときのための wait
       (async () => {
         return new Promise(function(resolve, reject) {
           setTimeout(resolve, 1000, 'foo');

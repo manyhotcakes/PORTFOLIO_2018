@@ -2,6 +2,12 @@ $color1: #5fc0bb;
 $color2: #c767c8;
 $color3: #cfcc70;
 $color4: #d6d379;
+$colors:(
+  color1: $color1,
+  color2: $color2,
+  color3: $color3,
+  color4: $color4
+);
 
 $logo-color: $color1;
 $background-color: #FAFAFA;
@@ -9,3 +15,9 @@ $background-color: #FAFAFA;
 $text-color: #35495e;
 $title1-color: $text-color;
 $title2-color: #5fc0bb;
+
+@each $key, $color in $colors {
+  .colorbg-#{$key} {
+    background-color: $color;
+  }
+}
