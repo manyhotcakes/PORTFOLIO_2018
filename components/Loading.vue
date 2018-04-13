@@ -44,56 +44,7 @@ $indicator-size: 5rem;
   flex-direction: column;
 }
 .indicator{
-  width: $indicator-size;
-  height: $indicator-size;
-  position: absolute;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  // states
-  &.isLoading{
-    border-radius: 50%;
-    background: linear-gradient(to right, $logo-color 10%, rgba($background-color, 0) 50%);
-    animation: loading-indicator $loading-sec infinite linear;
-    opacity: 1.0;
-    transition:
-      height $loadendscale-sec linear,
-      width $loadendscale-sec linear,
-      opacity $loadendscale-sec linear;
-    // pseudo
-    &:before{
-      content: "";
-      background: $logo-color;
-      display: block;
-      border-radius: 100% 0 0 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 50%;
-    }
-    &:after{
-      position: absolute;
-      content: "";
-      background: $background-color;
-      display: block;
-      border-radius: 100%;
-      width: 80%;
-      height: 80%;
-    }
-    // with state
-    &.isEnd{
-      width: 0px;
-      height: 0px;
-      opacity: 0.0;
-    }
-  }
-  &.isLoaded, &.isFinish {
-    display: none;
-  }
+  @include indicatorColor($color1);
 }
 .effect{
   position: absolute;
@@ -221,17 +172,23 @@ $indicator-size: 5rem;
 <script>
 import _ from 'lodash';
 import axios from 'axios'
+import { mapState } from 'vuex'
 const userid = 'manyhotcakes'
+const timeout = 1000;//5000; TODO 戻す
 
 export default {
   data: function() {
     return {
       stateClass: ['isLoading'],
       textContents: ' ',
-      imageContents: ''
+      imageContents: '',
+      hoge: 0,
     }
   },
   mounted: function() {
+    // console.log( this.$store.watch('preload/isAllLoad'), () => {
+    //   console.log('now!!!');
+    // } );
     const initActions = [
       // GitHub からアイコン取得
       (async () => {
@@ -241,26 +198,77 @@ export default {
       })(),
       // データ取得
       (async () => {
-        const {data} = await axios.get(`${process.env.JSONDATAPATH}dummy.json`)
-        console.log (data);
+        const api = axios.create({
+          timeout: 3000,
+          baseURL: process.env.JSONDATAPATH,
+        });
+        // TODO: plugins に移動
+        api.interceptors.response.use(function(res) {
+          try{
+            if (res.statusText !== 'OK'){
+              throw new Error('statusText is not ok');
+            }
+            if (typeof res.data !== typeof {}){
+              throw new Error('type of "data" is not Object type');
+            }
+            const data = res.data;
+            data._key = res.config.url.split(/[/,.]/).reverse()[1];
+            return data;
+          } catch (e){
+            return Promise.reject([res.config.url, e]);
+          }
+        });
+        // jsonの読み込み
+        const urls = [
+          'dummy',
+        ];
+        const jsonRes = await Promise.all(urls.map(url => api.get(`${url}.json`)));
+        jsonRes.forEach((data) => {
+          this.$store.commit('datas/set', [ data._key, data ]);
+        });
+        console.log('json loaded');
+        // // console.log(this.$store.getters['datas/get']('dummy'));
+        //
+        // // 画像の読み込み
+        // api.defaults.baseURL = "/img/"
+        // const imageUrls = _.map(jsonRes, 'image');
+        // const imgRes = await Promise.all(imageUrls.map(url => api.get(`${process.env.JSONDATAPATH}${url}`)));
+        // console.log(imgRes);
+      })().catch(res => {
+        console.error(res)
+      }),
+      // vuex store 上の preload 要素読み込み完了監視まち
+      (async () => {
+        return new Promise((resolve, reject) => {
+          this.$watch( () => this.$store.getters['preload/isFinish'], function(newval, oldval) {
+            if (newval){
+              resolve();
+              console.log('img loaded');
+            }
+          })
+          // 時間切れ
+          setTimeout(() => {
+            resolve();
+          }, timeout);
+        })
       })(),
       // 処理が早く終わりすぎたときのための wait
       (async () => {
         return new Promise(function(resolve, reject) {
           setTimeout(resolve, 1000, 'foo');
+          console.log('settimeout loaded');
         });
       })()
     ];
+
+    // 上記の async がすべて完了したタイミングで、ロード表現の終了
     (async () => {
       const result = await Promise.all(initActions);
-      this.loadingEndStart()
+      this.stateClass.push('isEnd');
+      this.stateClass = _.uniq(this.stateClass);
     })();
   },
   methods: {
-    loadingEndStart() {
-      this.stateClass.push('isEnd');
-      this.stateClass = _.uniq(this.stateClass);
-    },
     transitionend(evt) {
       if (_.includes(this.stateClass, 'isLoading')
         && _.includes(_.toArray(evt.target.classList), 'indicator')
@@ -272,6 +280,8 @@ export default {
         this.stateClass = ['isFinish']
       }
     },
+  },
+  computed: {
   }
 }
 </script>

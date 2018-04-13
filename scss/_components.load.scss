@@ -1,0 +1,78 @@
+// variables
+$loading-sec: .8s;
+$loadendscale-sec: .4s;
+$indicator-size: 5rem;
+
+@mixin indicatorColor($color: white, $bgcolor: $background-color){
+  &.isLoading{
+    background: linear-gradient(to right, $color 10%, rgba($bgcolor, 0) 50%);
+  }
+  &:before{
+    background: $color;
+  }
+  &:after{
+    background: $bgcolor;
+  }
+}
+@mixin indicatorSize($width: $indicator-size, $height: $indicator-size){
+  width: $width;
+  height: $height;
+}
+
+.indicator{
+  @include indicatorColor();
+  @include indicatorSize();
+  position: absolute;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  // states
+  &.isLoading{
+    border-radius: 50%;
+    animation: loading-indicator $loading-sec infinite linear;
+    opacity: 1.0;
+    transition:
+      height $loadendscale-sec linear,
+      width $loadendscale-sec linear,
+      opacity $loadendscale-sec linear;
+    // pseudo
+    &:before{
+      content: "";
+      display: block;
+      border-radius: 100% 0 0 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+    }
+    &:after{
+      position: absolute;
+      content: "";
+      display: block;
+      border-radius: 100%;
+      width: 80%;
+      height: 80%;
+    }
+    // with state
+    &.isEnd{
+      width: 0px;
+      height: 0px;
+      opacity: 0.0;
+    }
+  }
+  &.isLoaded, &.isFinish {
+    display: none;
+  }
+}
+@keyframes loading-indicator{
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
