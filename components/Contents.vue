@@ -4,7 +4,9 @@
       <div class="slash slash-top" :class="slashClass" />
       <div class="slash slash-bottom" :class="slashClass" />
       <div class="box" :class="boxClass">
-      <component v-on:authentication="onAuthentication" v-bind:is="contentsType" :color="color" class="body"/>
+        <keep-alive>
+          <component v-on:authentication="onAuthentication" :is="contentsType" :color="color" :errormsg="errormsg" class="body"/>
+        </keep-alive>
       </div>
     </div>
   </div>
@@ -37,6 +39,10 @@ $cos: 0.97629600711993;
 .wrap-rightup{
 }
 .wrap-leftup{
+}
+
+.error{
+  color: red;
 }
 
 .slash{
@@ -91,26 +97,46 @@ import _ from 'lodash';
 import axios from 'axios';
 const userid = 'manyhotcakes';
 
-function hoge(){
-  // return new Promise((resolve) => {
-  //   setTimeout(async ()=>{
-  //     resolve( await import('~/components/contents/Iam.vue') );
-  //     // resolve(rs);
-  //   }, 4000);
-  // });
-  return import('~/components/contents/Iam.vue').then((val) => {
-    console.log('task1')
-    return new Promise((resolve) => {
-      resolve(val);
-    });
-  })
-}
+// import Iam from '~/components/contents/Iam.vue';
+import Histories from '~/components/contents/Histories.vue';
+import Lock from '~/components/contents/Lock.vue';
+import Loading from '~/components/contents/Loading.vue';
+
+// function hoge(){
+//   // return new Promise((resolve) => {
+//   //   setTimeout(async ()=>{
+//   //     resolve( await import('~/components/contents/Iam.vue') );
+//   //     // resolve(rs);
+//   //   }, 4000);
+//   // });
+//   return import('~/components/contents/Iam.vue').then((val) => {
+//     console.log('task1')
+//     return new Promise((resolve) => {
+//       resolve(val);
+//     });
+//   })
+// }
 
 export default {
+  // errorCaptured (err, vm, info){
+  //   this.error = `${err.stack}\n\nfound in ${info} of component`;
+  //   console.error(this.error);
+  //   this.contentsType = "Lock";
+  //   this.errormsg = "ロードに失敗しました"
+  //   return false;
+  // },
+
   components: {
-    'Iam': hoge,
-    Histories: () => import('~/components/contents/Histories.vue'),
-    Lock: () => import('~/components/contents/Lock.vue'),
+    // Iam: () => new Promise(() => {
+    //
+    // }),
+    Iam: () => ({
+      component: import('~/components/contents/Iam.vue'),
+      loading: Loading,
+      error: Lock,
+    }),
+    Histories,
+    Lock,
   },
   props: {
     slashType: String,
@@ -121,6 +147,8 @@ export default {
     return {
       scrollX: 0,
       scrollY: 0,
+      error: null,
+      errormsg: false,
     }
   },
   mounted: function() {
@@ -152,9 +180,10 @@ export default {
       this.scrollY = this.$el.offsetTop + (this.$store.getters['window/windowH'] * 0.25);
     },
     onAuthentication(val) {
-      setTimeout(() => {
+      // setTimeout(() => {
+      //   console.log(this)
         this.contentsType = "Iam";
-      }, 2000);
+      // }, 2000);
     }
   }
 }

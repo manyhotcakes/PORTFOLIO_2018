@@ -32,6 +32,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    // vendor: ['~/assets/crypt.js'],
     /*
     ** Run ESLint on save
     */
