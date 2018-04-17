@@ -28,53 +28,71 @@
     }
   }
 }
-// .indicator{
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-//   @include indicatorSize(4rem, 4rem)
-//   &.colorbg-color1{
-//     @include indicatorColor(white, $color1);
-//   }
-//   &.colorbg-color2{
-//     @include indicatorColor(white, $color2);
-//   }
-// }
-
 </style>
 <template>
   <div class="body">
-    <form v-on:submit.prevent="onSubmit" v-if="!loading">
+    <form @submit.prevent="onSubmit">
       <i class="fas fa-lock icon-l"></i>
       <p class="subtitle">confidential</p>
-      <input class="input" type="password" value="" :class="inputClass" :placeholder="placeholder" v-model="password">
+      <input
+        class="input"
+        name="password"
+        type="password"
+        data-vv-as="パスワード"
+        value=""
+        :class="inputClass"
+        :placeholder="placeholder"
+        v-model="password"
+        v-validate="validate"
+        data-vv-validate-on="none"
+      >
     </form>
-    <!-- <div class="indicator isLoading" :class="indicatorClass" v-if="loading"/> -->
   </div>
 </template>
 
 <script>
 export default {
-  // props:[
-  //   'color',
-  // ],
-  props: [
-    'errormsg'
-  ],
   data(){
     return {
+      /**
+       * password input フィールドの内容
+       * @type {String}
+       */
       password: '',
-      // loading: false,
+      /**
+       * バリデーション時に表示するエラーメッセージ
+       * @type {String}
+       */
+      errormsg: '',
     };
   },
   methods: {
+    /**
+     * パスワード入力フォームをsubmit時に呼び出される。
+     * このタイミングでバリデーションも実行する
+     * @return {null}
+     */
     onSubmit(){
-      // this.loading = true;
-      this.$emit('authentication', {password: this.password});
+      // バリデーション実行
+      this.$validator.validateAll().then((result) => {
+        // 成功時
+        if (result) {
+          this.$emit('authentication', {password: this.password});
+          this.errormsg = '';
+          return;
+        }
+        // バリデーションにひっかかった時
+        this.password = '';
+        this.errormsg = this.errors.first('password');
+      })
     },
   },
   computed: {
+    /**
+     * input フィールドに設定する class を返却。
+     * バリデーションエラーがあれば、赤色に表示する
+     * @return {[Array]}
+     */
     inputClass(){
       const list = [];
       if (this.errormsg){
@@ -82,8 +100,19 @@ export default {
       }
       return list;
     },
+    /**
+     * Placeholder に表示する値を返却
+     * @return {String}
+     */
     placeholder(){
-      return this.errormsg || 'PWを入力して非表示を解除';
+      return this.errormsg || 'パスワードを入力して非表示を解除';
+    },
+    /**
+     * input に validate する項目を指定
+     * @return {String} v-validate に渡す値
+     */
+    validate(){
+      return `password:${process.env.PASSWORDHASH}|required`;
     }
   }
 }

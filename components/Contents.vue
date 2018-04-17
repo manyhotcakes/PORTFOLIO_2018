@@ -5,7 +5,10 @@
       <div class="slash slash-bottom" :class="slashClass" />
       <div class="box" :class="boxClass">
         <keep-alive>
-          <component v-on:authentication="onAuthentication" :is="contentsType" :color="color" :errormsg="errormsg" class="body"/>
+          <component @authentication="onAuthentication"
+            :is="currentContentsComponent"
+            :color="color"
+            class="body"/>
         </keep-alive>
       </div>
     </div>
@@ -96,28 +99,14 @@ $cos: 0.97629600711993;
 import _ from 'lodash';
 import axios from 'axios';
 const userid = 'manyhotcakes';
+import Crypt from '~/assets/crypt.js'
 
 // import Iam from '~/components/contents/Iam.vue';
 import Histories from '~/components/contents/Histories.vue';
 import Lock from '~/components/contents/Lock.vue';
 import Loading from '~/components/contents/Loading.vue';
-
-// function hoge(){
-//   // return new Promise((resolve) => {
-//   //   setTimeout(async ()=>{
-//   //     resolve( await import('~/components/contents/Iam.vue') );
-//   //     // resolve(rs);
-//   //   }, 4000);
-//   // });
-//   return import('~/components/contents/Iam.vue').then((val) => {
-//     console.log('task1')
-//     return new Promise((resolve) => {
-//       resolve(val);
-//     });
-//   })
-// }
-
 export default {
+  // TODO 開発終了後に戻す
   // errorCaptured (err, vm, info){
   //   this.error = `${err.stack}\n\nfound in ${info} of component`;
   //   console.error(this.error);
@@ -127,9 +116,6 @@ export default {
   // },
 
   components: {
-    // Iam: () => new Promise(() => {
-    //
-    // }),
     Iam: () => ({
       component: import('~/components/contents/Iam.vue'),
       loading: Loading,
@@ -141,7 +127,7 @@ export default {
   props: {
     slashType: String,
     color: String,
-    contentsType: String,
+    contentsType: [String, Array],
   },
   data: function() {
     return {
@@ -149,11 +135,12 @@ export default {
       scrollY: 0,
       error: null,
       errormsg: false,
+      contentsTypeIdx: 0,
+      api: null,
     }
   },
   mounted: function() {
     this.$root.$on('windowresize', this.onResize);
-    console.log(this.component);
   },
   computed: {
     wrapClass: function() {
@@ -174,17 +161,34 @@ export default {
         `colorbg-${this.color}`,
       ];
     },
+    currentContentsComponent(){
+      return this.getComponetsType(this.contentsTypeIdx)
+    },
   },
   methods: {
     onResize() {
       this.scrollY = this.$el.offsetTop + (this.$store.getters['window/windowH'] * 0.25);
     },
-    onAuthentication(val) {
-      // setTimeout(() => {
-      //   console.log(this)
-        this.contentsType = "Iam";
-      // }, 2000);
-    }
+    onAuthentication(_session) {
+      this.contentsTypeIdx = (
+        this.getComponetsType(this.contentsTypeIdx + 1)
+        ? this.contentsTypeIdx + 1
+        : this.contentsTypeIdx
+      );
+      this.$store.commit('session/pw', _session.password);
+    },
+    getComponetsType(idx) {
+      let res;
+      switch (typeof this.contentsType) {
+        case 'string':
+          res = this.contentsType;
+          break;
+        default:
+          res = this.contentsType[idx];
+          break;
+      }
+      return res ? res : '';
+    },
   }
 }
 </script>

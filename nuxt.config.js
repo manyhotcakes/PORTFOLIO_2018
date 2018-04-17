@@ -22,10 +22,12 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
-
-
+  router: {
+    base: process.env.ROUTER_BASE || '/',
+  },
   plugins: [
     '@/plugins/preload.js',
+    '@/plugins/validator.js',
   ],
 
   /*
@@ -64,6 +66,8 @@ module.exports = {
     ]],
   ],
   env: {
-    JSONDATAPATH: '/data/'
+    JSONDATAPATH: `${process.env.ROUTER_BASE}data/`,
+    GITHUBUSERID: 'manyhotcakes',
+    PASSWORDHASH: 'bc523a237636533c0f71d670a13c20fa',
   },
 }

@@ -4,10 +4,11 @@ export const state = () => ({
   pw: null,
 });
 export const mutations = {
-  setPw(state, pw) {
+  pw(state, pw) {
+    console.log(pw);
     state.pw = pw;
   }
 };
 export const getters = {
-  getPw: (state) => state.pw,
+  pw: (state) => state.pw,
 };

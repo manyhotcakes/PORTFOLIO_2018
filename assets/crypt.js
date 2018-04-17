@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {AES, PBKDF2, enc, mode, pad, lib} from 'crypto-js'
+import {AES, PBKDF2, enc, mode, pad, lib, MD5} from 'crypto-js'
 import crypto from 'crypto-js'
 
 export default class Crypt {
@@ -19,6 +19,11 @@ export default class Crypt {
     };
     this.enc = enc.Utf8;
     return this;
+  }
+
+  checkPw(_inputpw, _hashedpw) {
+    const inputhashed = MD5(_inputpw).toString(enc.Hex);
+    return (inputhashed === _hashedpw);
   }
 
   /**

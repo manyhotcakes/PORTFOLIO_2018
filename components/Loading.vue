@@ -1,17 +1,17 @@
 <template>
   <div class="wrap">
-    <div class="block">
-      <div class="graphic" v-on:animationend="transitionend" v-on:transitionend="transitionend">
+    <div>
+      <div class="wrap_graphic" v-on:animationend="transitionend" v-on:transitionend="transitionend">
         <div class="indicator" :class="stateClass" ></div>
         <div class="image" :style="{backgroundImage: imageContents}" :class="stateClass"/>
         <div class="effect" :class="stateClass">
           <div class="effect_visual" :class="stateClass"></div>
         </div>
       </div>
-      <div class="title title-1" :class="stateClass">
+      <div class="wrap_title title title-1" :class="stateClass">
         <div class="title_contents title-1_contents" v-text="textContents">&nbsp;</div>
       </div>
-      <div class="title title-2" :class="stateClass">
+      <div class="wrap_title title title-2" :class="stateClass">
         <div class="title_contents title-2_contents">Portfolio</div>
       </div>
     </div>
@@ -25,6 +25,9 @@ $loadendscale-sec: .4s;
 $indicator-size: 5rem;
 
 // styles
+/* ===================
+ * 親クラス
+ =================== */
 .wrap{
   width: 100%;
   height: 100vh;
@@ -34,7 +37,10 @@ $indicator-size: 5rem;
   text-align: center;
   flex-direction: column;
 }
-.graphic{
+/* ===================
+ * 演出表現親クラス
+ =================== */
+.wrap_graphic{
   width: 100%;
   height: 5rem;
   display: flex;
@@ -43,9 +49,15 @@ $indicator-size: 5rem;
   text-align: center;
   flex-direction: column;
 }
+/* ===================
+ * ローディングインジケーター
+ =================== */
 .indicator{
   @include indicatorColor($color1);
 }
+/* ===================
+ * にぎやかし
+ =================== */
 .effect{
   position: absolute;
   overflow: hidden;
@@ -85,6 +97,9 @@ $indicator-size: 5rem;
     display: none;
   }
 }
+/* ===================
+ * タイトルテキスト
+ =================== */
 .title{
   position: relative;
   width: 100%;
@@ -123,7 +138,9 @@ $indicator-size: 5rem;
     color: $title2-color;
   }
 }
-
+/* ===================
+ * GitHubアイコンを表示する画像枠
+ =================== */
 .image{
   background-position: center;
   border-radius: 50%;
@@ -145,7 +162,9 @@ $indicator-size: 5rem;
     height: $indicator-size;
   }
 }
-
+/* ===================
+ * ローディングインジケーターアニメ用
+ =================== */
 @keyframes loading-indicator{
   0% {
     transform: rotate(0deg);
@@ -154,6 +173,9 @@ $indicator-size: 5rem;
     transform: rotate(360deg);
   }
 }
+/* ===================
+ * 読み込み完了後にぎやかしアニメ用
+ =================== */
 @keyframes loaded-effect_visual{
   0% {
     border-color: rgba($logo-color, 0.0);
@@ -173,71 +195,30 @@ $indicator-size: 5rem;
 import _ from 'lodash';
 import axios from 'axios'
 import { mapState } from 'vuex'
-const userid = 'manyhotcakes'
-const timeout = 1000;//5000; TODO 戻す
+const TIMEOUT = 1000;//5000; TODO 戻す
 
 export default {
   data: function() {
     return {
+      // ローディング状態を表すクラス。
+      // isLoading -> isLoaded -> isFinish で遷移
       stateClass: ['isLoading'],
+      // タイトルテキスト
       textContents: ' ',
+      // 表示画像パス
       imageContents: '',
-      hoge: 0,
     }
   },
   mounted: function() {
-    // console.log( this.$store.watch('preload/isAllLoad'), () => {
-    //   console.log('now!!!');
-    // } );
-    const initActions = [
+    // 初期化処理で非同期に処理完了を待つタスク一覧
+    const initTasks = [
       // GitHub からアイコン取得
       (async () => {
-        const { data: user } = await axios.get(`https://api.github.com/users/${userid}`)
+        const { data: user } = await axios.get(`https://api.github.com/users/${process.env.GITHUBUSERID}`)
         this.textContents = user.name;
         this.imageContents = `url(${user.avatar_url})`;
       })(),
-      // データ取得
-      (async () => {
-        const api = axios.create({
-          timeout: 3000,
-          baseURL: process.env.JSONDATAPATH,
-        });
-        // TODO: plugins に移動
-        api.interceptors.response.use(function(res) {
-          try{
-            if (res.statusText !== 'OK'){
-              throw new Error('statusText is not ok');
-            }
-            if (typeof res.data !== typeof {}){
-              throw new Error('type of "data" is not Object type');
-            }
-            const data = res.data;
-            data._key = res.config.url.split(/[/,.]/).reverse()[1];
-            return data;
-          } catch (e){
-            return Promise.reject([res.config.url, e]);
-          }
-        });
-        // jsonの読み込み
-        const urls = [
-          'dummy',
-        ];
-        const jsonRes = await Promise.all(urls.map(url => api.get(`${url}.json`)));
-        jsonRes.forEach((data) => {
-          this.$store.commit('datas/set', [ data._key, data ]);
-        });
-        console.log('json loaded');
-        // // console.log(this.$store.getters['datas/get']('dummy'));
-        //
-        // // 画像の読み込み
-        // api.defaults.baseURL = "/img/"
-        // const imageUrls = _.map(jsonRes, 'image');
-        // const imgRes = await Promise.all(imageUrls.map(url => api.get(`${process.env.JSONDATAPATH}${url}`)));
-        // console.log(imgRes);
-      })().catch(res => {
-        console.error(res)
-      }),
-      // vuex store 上の preload 要素読み込み完了監視まち
+      // HTML中のpreload指定された画像の読み込み完了待ち
       (async () => {
         return new Promise((resolve, reject) => {
           this.$watch( () => this.$store.getters['preload/isFinish'], function(newval, oldval) {
@@ -249,7 +230,7 @@ export default {
           // 時間切れ
           setTimeout(() => {
             resolve();
-          }, timeout);
+          }, TIMEOUT);
         })
       })(),
       // 処理が早く終わりすぎたときのための wait
@@ -261,14 +242,24 @@ export default {
       })()
     ];
 
-    // 上記の async がすべて完了したタイミングで、ロード表現の終了
-    (async () => {
-      const result = await Promise.all(initActions);
+    return (async () => {
+      // 上記のタスクがすべて完了したタイミングで、ロード表現の終了
+      const result = await Promise.all(initTasks);
       this.stateClass.push('isEnd');
       this.stateClass = _.uniq(this.stateClass);
-    })();
+    })().catch(res => {
+      // 仮に失敗した場合は、画面を破棄してエラーを投げる
+      this.$el.remove();
+      this.$destroy(true);
+      throw new Error(res);
+    });
   },
   methods: {
+    /**
+     * CSS の transition や animation の終了監視
+     * @param  {Event} evt [description]
+     * @return {[type]}     [description]
+     */
     transitionend(evt) {
       if (_.includes(this.stateClass, 'isLoading')
         && _.includes(_.toArray(evt.target.classList), 'indicator')
@@ -281,7 +272,5 @@ export default {
       }
     },
   },
-  computed: {
-  }
 }
 </script>

@@ -1,34 +1,24 @@
 <template>
-  <div v-html="body"/>
+  <div>
+    <div v-html="body"></div>
+    <loading v-if="!body" :color="color"/>
+  </div>
 </template>
 
 <script>
-// import template from '~/static/data/dummytemplate.html';
-import _ from 'lodash';
-import axios from 'axios'
-import Crypt from '~/assets/crypt.js'
+import mixin from '~/assets/encryptComponentMixin.js'
 
 export default {
+  mixins: [mixin],
+  name: 'Iam',
+  props: {
+    color: String,
+  },
   data: function(){
     return {
       level: 3,
       body: '',
     }
-  },
-  mounted(){
-    (async () => {
-      const api = axios.create({
-        timeout: 3000,
-        baseURL: process.env.JSONDATAPATH,
-      });
-      const { data: {body} } = await api.get('dummytemplate.json');
-
-      const crypt = new Crypt();
-      const encrypt = crypt.encrypt('こんにちは<h1>さようですね</h1>', 'hogehoge')
-      const decrypt = crypt.decrypt(encrypt, 'hogehoge');
-
-      this.body = body;
-    })();
   },
 }
 </script>
