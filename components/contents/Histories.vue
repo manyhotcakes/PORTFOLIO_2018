@@ -1,13 +1,10 @@
 <template>
   <div>
     <h1>History</h1>
-    <div>
-
-    </div>
+    <div/>
   </div>
 </template>
 
 <script>
-export default {
-}
+export default {}
 </script>

@@ -6,8 +6,9 @@
 
 <style lang="scss">
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: calc(100vw/32);
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: calc(100vw / 32);
   overflow-x: hidden;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -18,7 +19,9 @@ html {
   background-color: $background-color;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
 }

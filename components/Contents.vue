@@ -1,14 +1,14 @@
 <template>
-  <div class="wrap" :class="wrapClass">
+  <div :class="wrapClass" class="wrap" >
     <div class="block">
-      <div class="slash slash-top" :class="slashClass" />
-      <div class="slash slash-bottom" :class="slashClass" />
-      <div class="box" :class="boxClass">
+      <div :class="slashClass" class="slash slash-top" />
+      <div :class="slashClass" class="slash slash-bottom" />
+      <div :class="boxClass" class="box" >
         <keep-alive>
-          <component @authentication="onAuthentication"
-            :is="currentContentsComponent"
-            :color="color"
-            class="body"/>
+          <component :is="currentContentsComponent"
+                     :color="color"
+                     class="body"
+                     @authentication="onAuthentication"/>
         </keep-alive>
       </div>
     </div>
@@ -21,7 +21,7 @@ $deg: 12.5deg;
 $tan: 0.22169466264294;
 $cos: 0.97629600711993;
 // styles
-.wrap{
+.wrap {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -31,54 +31,52 @@ $cos: 0.97629600711993;
   overflow: hidden;
   opacity: 0;
   transform: translateY(25vh);
-  transition:
-    opacity 0.4s linear,
-    transform 0.4s ease-out;
-  &.isShow{
+  transition: opacity 0.4s linear, transform 0.4s ease-out;
+  &.isShow {
     opacity: 1;
     transform: translateY(0);
   }
 }
-.wrap-rightup{
+.wrap-rightup {
 }
-.wrap-leftup{
+.wrap-leftup {
 }
 
-.error{
+.error {
   color: red;
 }
 
-.slash{
+.slash {
   position: absolute;
   width: 150vw;
   height: calc(100vw * #{$tan});
   z-index: 1;
 }
-.slash-rightup{
+.slash-rightup {
   transform-origin: bottom left;
   left: 0;
   transform: rotateZ(-#{$deg});
 }
-.slash-leftup{
+.slash-leftup {
   transform-origin: bottom right;
   right: 0;
   transform: rotateZ(#{$deg});
 }
-.slash-top{
+.slash-top {
   top: calc(100vw * #{$tan});
 }
-.slash-bottom{
+.slash-bottom {
   bottom: 0;
 }
 
-.block{
+.block {
   position: relative;
   width: 100vw;
   box-sizing: border-box;
   padding: calc(100vw * #{$tan}) 0;
   margin: 1vw 0;
 }
-.box{
+.box {
   position: relative;
   display: flex;
   justify-content: center;
@@ -86,25 +84,19 @@ $cos: 0.97629600711993;
   text-align: center;
   flex-direction: column;
 }
-.body{
+.body {
   z-index: 2;
   font-size: 1rem;
   width: 80%;
   height: auto;
-  transition: height 0.4s ease-out,
+  transition: height 0.4s ease-out;
 }
 </style>
 
 <script>
-import _ from 'lodash';
-import axios from 'axios';
-const userid = 'manyhotcakes';
-import Crypt from '~/assets/crypt.js'
-
-// import Iam from '~/components/contents/Iam.vue';
-import Histories from '~/components/contents/Histories.vue';
-import Lock from '~/components/contents/Lock.vue';
-import Loading from '~/components/contents/Loading.vue';
+import Histories from "~/components/contents/Histories.vue"
+import Lock from "~/components/contents/Lock.vue"
+import Loading from "~/components/contents/Loading.vue"
 export default {
   // TODO 開発終了後に戻す
   // errorCaptured (err, vm, info){
@@ -117,17 +109,27 @@ export default {
 
   components: {
     Iam: () => ({
-      component: import('~/components/contents/Iam.vue'),
+      component: import("~/components/contents/Iam.vue"),
       loading: Loading,
-      error: Lock,
+      error: Lock
     }),
     Histories,
-    Lock,
+    Lock
   },
   props: {
-    slashType: String,
-    color: String,
-    contentsType: [String, Array],
+    slashType: {
+      type: String,
+      required: true
+    },
+    color: {
+      type: String,
+      required: true
+    },
+    contentsType: {
+      type: [String, Array],
+      default: "",
+      required: true
+    }
   },
   data: function() {
     return {
@@ -136,59 +138,53 @@ export default {
       error: null,
       errormsg: false,
       contentsTypeIdx: 0,
-      api: null,
+      api: null
+    }
+  },
+  computed: {
+    wrapClass() {
+      const res = [`wrap-${this.slashType}`]
+      if (this.scrollY < this.$store.getters["window/scrollYBottom"]) {
+        res.push("isShow")
+      }
+      return res
+    },
+    slashClass() {
+      return [`slash-${this.slashType}`, `colorbg-${this.color}`]
+    },
+    boxClass() {
+      return [`colorbg-${this.color}`]
+    },
+    currentContentsComponent() {
+      return this.getComponetsType(this.contentsTypeIdx)
     }
   },
   mounted: function() {
-    this.$root.$on('windowresize', this.onResize);
-  },
-  computed: {
-    wrapClass: function() {
-      const res = [`wrap-${this.slashType}`];
-      if (this.scrollY < this.$store.getters['window/scrollYBottom']){
-        res.push('isShow');
-      }
-      return res;
-    },
-    slashClass: function() {
-      return [
-        `slash-${this.slashType}`,
-        `colorbg-${this.color}`,
-      ];
-    },
-    boxClass: function() {
-      return [
-        `colorbg-${this.color}`,
-      ];
-    },
-    currentContentsComponent(){
-      return this.getComponetsType(this.contentsTypeIdx)
-    },
+    this.$root.$on("windowresize", this.onResize)
   },
   methods: {
     onResize() {
-      this.scrollY = this.$el.offsetTop + (this.$store.getters['window/windowH'] * 0.25);
+      this.scrollY =
+        this.$el.offsetTop + this.$store.getters["window/windowH"] * 0.25
     },
     onAuthentication(_session) {
-      this.contentsTypeIdx = (
-        this.getComponetsType(this.contentsTypeIdx + 1)
+      this.contentsTypeIdx = this.getComponetsType(this.contentsTypeIdx + 1)
         ? this.contentsTypeIdx + 1
         : this.contentsTypeIdx
-      );
-      this.$store.commit('session/pw', _session.password);
+      this.$store.commit("session/pw", _session.password)
     },
     getComponetsType(idx) {
-      let res;
+      let res
       switch (typeof this.contentsType) {
-        case 'string':
-          res = this.contentsType;
-          break;
+        case "string":
+          res = this.contentsType
+          break
         default:
-          res = this.contentsType[idx];
-          break;
+          res = this.contentsType[idx]
+          break
       }
-      return res ? res : '';
-    },
+      return res ? res : ""
+    }
   }
 }
 </script>

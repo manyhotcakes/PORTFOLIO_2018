@@ -1,10 +1,8 @@
-import _ from 'lodash';
-import {AES, PBKDF2, enc, mode, pad, lib, MD5} from 'crypto-js'
-import crypto from 'crypto-js'
+import { AES, PBKDF2, enc, mode, pad, lib, MD5 } from "crypto-js"
 
 export default class Crypt {
   constructor() {
-    this.init();
+    this.init()
   }
 
   /**
@@ -16,14 +14,14 @@ export default class Crypt {
     this.config = {
       mode: mode.CBC,
       padding: pad.Pkcs7
-    };
-    this.enc = enc.Utf8;
-    return this;
+    }
+    this.enc = enc.Utf8
+    return this
   }
 
   checkPw(_inputpw, _hashedpw) {
-    const inputhashed = MD5(_inputpw).toString(enc.Hex);
-    return (inputhashed === _hashedpw);
+    const inputhashed = MD5(_inputpw).toString(enc.Hex)
+    return inputhashed === _hashedpw
   }
 
   /**
@@ -31,13 +29,13 @@ export default class Crypt {
    * @return {Crypt} 自身
    */
   getVars() {
-    const iv = lib.WordArray.random(128 / 8);
-    const salt = lib.WordArray.random(128 / 8);
-    return {iv, salt};
+    const iv = lib.WordArray.random(128 / 8)
+    const salt = lib.WordArray.random(128 / 8)
+    return { iv, salt }
   }
   getKey(_pw, _salt) {
-    const pw = this.enc.parse(enc.Hex.parse(_pw));
-    return PBKDF2(pw, _salt, {keySize: 128 / 8, iterations: 500 });
+    const pw = this.enc.parse(enc.Hex.parse(_pw))
+    return PBKDF2(pw, _salt, { keySize: 128 / 8, iterations: 500 })
   }
 
   /**
@@ -46,15 +44,19 @@ export default class Crypt {
    * @return {String}           暗号化データ
    */
   encrypt(_plainText, _pw) {
-    const {iv, salt} = this.getVars();
-    const key = this.getKey(_pw, salt);
-    const encrypt = AES.encrypt(this.enc.parse(_plainText), key, Object.assign(this.config,{iv}) );
+    const { iv, salt } = this.getVars()
+    const key = this.getKey(_pw, salt)
+    const encrypt = AES.encrypt(
+      this.enc.parse(_plainText),
+      key,
+      Object.assign(this.config, { iv })
+    )
     return [
       enc.Hex.stringify(iv),
       enc.Hex.stringify(salt),
       encrypt.toString(),
-      enc.Hex.stringify(key),
-    ].join(':');
+      enc.Hex.stringify(key)
+    ].join(":")
   }
 
   /**
@@ -63,14 +65,16 @@ export default class Crypt {
    * @return {String}           複合した文字列
    */
   decrypt(encryptedData, _pw) {
-    const [ivStr, saltStr, encryptStr] = encryptedData.split(':');
-    const iv = enc.Hex.parse(ivStr);
-    const salt = enc.Hex.parse(saltStr);
-    const encrypt = encryptStr;
-    const key = this.getKey(_pw, salt);
-    const decrypted = AES.decrypt(encrypt, key, Object.assign(this.config,{iv}) );
-    return decrypted.toString(this.enc);
+    const [ivStr, saltStr, encryptStr] = encryptedData.split(":")
+    const iv = enc.Hex.parse(ivStr)
+    const salt = enc.Hex.parse(saltStr)
+    const encrypt = encryptStr
+    const key = this.getKey(_pw, salt)
+    const decrypted = AES.decrypt(
+      encrypt,
+      key,
+      Object.assign(this.config, { iv })
+    )
+    return decrypted.toString(this.enc)
   }
-
-
 }

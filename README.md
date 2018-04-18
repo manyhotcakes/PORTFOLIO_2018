@@ -1,5 +1,7 @@
 # portfolio
 
+https://manyhotcakes.github.io/PORTFOLIO_2018/    
+
 2018 my portfolio pages with Nuxt.js
 **鋭意製作中**
 

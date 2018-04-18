@@ -2,33 +2,43 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  mode: 'spa',
+  mode: "spa",
   head: {
-    title: 'portfolio',
+    title: "portfolio",
     script: [
-      { defer:true, src: "https://use.fontawesome.com/releases/v5.0.10/js/all.js", integrity: "sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+", crossorigin:"anonymous" },
+      {
+        defer: true,
+        src: "https://use.fontawesome.com/releases/v5.0.10/js/all.js",
+        integrity:
+          "sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+",
+        crossorigin: "anonymous"
+      }
     ],
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '2018 my portfolio pages with Nuxt.js' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content: "2018 my portfolio pages with Nuxt.js"
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Raleway'},
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css?family=Raleway"
+      }
     ]
   },
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: "#3B8070" },
   router: {
-    base: process.env.ROUTER_BASE || '/',
+    base: process.env.ROUTER_BASE || "/"
   },
-  plugins: [
-    '@/plugins/preload.js',
-    '@/plugins/validator.js',
-  ],
+  plugins: ["@/plugins/preload.js", "@/plugins/validator.js"],
 
   /*
   ** Build configuration
@@ -38,20 +48,20 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
-          enforce: 'pre',
+          enforce: "pre",
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           exclude: /(node_modules)/
         })
       }
     },
     postcss: [
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      }),
+      require("autoprefixer")({
+        browsers: ["last 2 versions"]
+      })
     ]
   },
   /*
@@ -61,13 +71,11 @@ module.exports = {
     /*
     ** 共通 SASS 変数読み込み
     */
-    ['nuxt-sass-resources-loader', [
-        '@/scss/main.scss',
-    ]],
+    ["nuxt-sass-resources-loader", ["@/scss/main.scss"]]
   ],
   env: {
-    JSONDATAPATH: `${process.env.ROUTER_BASE}data/`,
-    GITHUBUSERID: 'manyhotcakes',
-    PASSWORDHASH: 'bc523a237636533c0f71d670a13c20fa',
-  },
+    JSONDATAPATH: `${process.env.ROUTER_BASE || ""}data/`,
+    GITHUBUSERID: "manyhotcakes",
+    PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa"
+  }
 }

@@ -1,29 +1,29 @@
 <style lang="scss" scoped>
-.body{
+.body {
   height: 10rem;
 }
-.subtitle{
+.subtitle {
   font-size: 1rem;
   line-height: 2rem;
   vertical-align: middle;
   height: 2rem;
 }
-.input{
+.input {
   padding: 10px;
-  border: solid 1px rgba(0,0,0,0.3);
+  border: solid 1px rgba(0, 0, 0, 0.3);
   border-radius: 30px;
   width: 40%;
   min-width: 300px;
   max-width: 600px;
   text-align: center;
   outline: 0;
-  &::placeholder{
-    color: rgba(0,0,0,0.5);
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.5);
   }
-  &.isError{
+  &.isError {
     border-color: red;
     box-shadow: 0 0 10px red;
-    &::placeholder{
+    &::placeholder {
       color: red;
     }
   }
@@ -32,19 +32,19 @@
 <template>
   <div class="body">
     <form @submit.prevent="onSubmit">
-      <i class="fas fa-lock icon-l"></i>
+      <i class="fas fa-lock icon-l"/>
       <p class="subtitle">confidential</p>
       <input
-        class="input"
-        name="password"
-        type="password"
-        data-vv-as="パスワード"
-        value=""
+        v-validate="validate"
         :class="inputClass"
         :placeholder="placeholder"
         v-model="password"
-        v-validate="validate"
+        data-vv-as="パスワード"
         data-vv-validate-on="none"
+        class="input"
+        name="password"
+        type="password"
+        value=""
       >
     </form>
   </div>
@@ -52,40 +52,19 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       /**
        * password input フィールドの内容
        * @type {String}
        */
-      password: '',
+      password: "",
       /**
        * バリデーション時に表示するエラーメッセージ
        * @type {String}
        */
-      errormsg: '',
-    };
-  },
-  methods: {
-    /**
-     * パスワード入力フォームをsubmit時に呼び出される。
-     * このタイミングでバリデーションも実行する
-     * @return {null}
-     */
-    onSubmit(){
-      // バリデーション実行
-      this.$validator.validateAll().then((result) => {
-        // 成功時
-        if (result) {
-          this.$emit('authentication', {password: this.password});
-          this.errormsg = '';
-          return;
-        }
-        // バリデーションにひっかかった時
-        this.password = '';
-        this.errormsg = this.errors.first('password');
-      })
-    },
+      errormsg: ""
+    }
   },
   computed: {
     /**
@@ -93,26 +72,47 @@ export default {
      * バリデーションエラーがあれば、赤色に表示する
      * @return {[Array]}
      */
-    inputClass(){
-      const list = [];
-      if (this.errormsg){
-        list.push('isError');
+    inputClass() {
+      const list = []
+      if (this.errormsg) {
+        list.push("isError")
       }
-      return list;
+      return list
     },
     /**
      * Placeholder に表示する値を返却
      * @return {String}
      */
-    placeholder(){
-      return this.errormsg || 'パスワードを入力して非表示を解除';
+    placeholder() {
+      return this.errormsg || "パスワードを入力して非表示を解除"
     },
     /**
      * input に validate する項目を指定
      * @return {String} v-validate に渡す値
      */
-    validate(){
-      return `password:${process.env.PASSWORDHASH}|required`;
+    validate() {
+      return `password:${process.env.PASSWORDHASH}|required`
+    }
+  },
+  methods: {
+    /**
+     * パスワード入力フォームをsubmit時に呼び出される。
+     * このタイミングでバリデーションも実行する
+     * @return {null}
+     */
+    onSubmit() {
+      // バリデーション実行
+      this.$validator.validateAll().then(result => {
+        // 成功時
+        if (result) {
+          this.$emit("authentication", { password: this.password })
+          this.errormsg = ""
+          return
+        }
+        // バリデーションにひっかかった時
+        this.password = ""
+        this.errormsg = this.errors.first("password")
+      })
     }
   }
 }
