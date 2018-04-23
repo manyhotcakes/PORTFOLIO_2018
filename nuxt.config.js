@@ -84,7 +84,13 @@ module.exports = {
       new webpack.ProvidePlugin({
         _: "lodash"
       })
-    ]
+    ],
+    /* eslint-disable */
+    babel: {
+      presets: [
+        ["vue-app", { targets: { browsers: "last 2 versions" }, useBuiltIns: true }]
+      ]
+    }
   },
   env: {
     ROUTEPATH: `${process.env.ROUTER_BASE || ""}`,

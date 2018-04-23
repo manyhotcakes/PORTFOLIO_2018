@@ -2,7 +2,7 @@
   <section>
     <h1>Works</h1>
     <div class="l-works flex">
-      <squareimage src="sample.json" />
+      <squareimage src="data/img/ss01_01.json" />
     </div>
 
     <div v-html="body"/>

@@ -4,7 +4,6 @@ export const state = () => ({
 export const mutations = {
   set(state, [key, data]) {
     state.items[key] = data
-    console.log("state.items", state.items)
   }
 }
 export const getters = {

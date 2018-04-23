@@ -1,6 +1,9 @@
-import { AES, PBKDF2, enc, mode, pad, lib, MD5 } from "crypto-js"
+const { AES, PBKDF2, enc, mode, pad, lib, MD5 } = require("crypto-js")
 
-export default class Crypt {
+/* eslint-disable */
+'use strict';
+
+module.exports = class Crypt {
   constructor() {
     this.init()
   }
@@ -78,3 +81,9 @@ export default class Crypt {
     return decrypted.toString(this.enc)
   }
 }
+
+// if (process.browser){
+// } else {
+  // module.exports = Crypt;
+// }
+// export default Crypt;

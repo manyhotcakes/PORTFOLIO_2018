@@ -20,7 +20,6 @@ export default function(ctx) {
       /* eslint-disable */
       validate(value, [match]) {
         return new Promise(resolve => {
-          console.log(value, match)
           resolve(ctx.$crypt.checkPw(value, match))
           resolve(true)
         })

@@ -222,7 +222,6 @@ export default {
           ) {
             if (newval) {
               resolve()
-              console.log("img loaded")
             }
           })
           // 時間切れ
