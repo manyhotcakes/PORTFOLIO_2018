@@ -19,8 +19,7 @@ export default {
   },
   data: function() {
     return {
-      level: 3,
-      body: ""
+      level: 3
     }
   }
 }

@@ -1,5 +1,4 @@
 import Vue from "vue"
-import _ from "lodash"
 
 // const TIMEOUT = 5 * 1000;  // 5s以上かかれば強制的に読み込み完了とする
 

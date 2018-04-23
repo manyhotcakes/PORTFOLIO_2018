@@ -1,3 +1,5 @@
+const webpack = require("webpack")
+
 module.exports = {
   /*
   ** Headers of the page
@@ -38,7 +40,22 @@ module.exports = {
   router: {
     base: process.env.ROUTER_BASE || "/"
   },
-  plugins: ["@/plugins/preload.js", "@/plugins/validator.js"],
+  /*
+  ** 拡張の読み込み
+  */
+  modules: [
+    /*
+    ** 共通 SASS 変数読み込み
+    */
+    ["nuxt-sass-resources-loader", ["@/scss/main.scss"]],
+    "@nuxtjs/axios"
+  ],
+  plugins: [
+    "@/plugins/globals.js",
+    "@/plugins/axios.js",
+    "@/plugins/preload.js",
+    "@/plugins/validator.js"
+  ],
 
   /*
   ** Build configuration
@@ -62,19 +79,16 @@ module.exports = {
       require("autoprefixer")({
         browsers: ["last 2 versions"]
       })
+    ],
+    plugins: [
+      new webpack.ProvidePlugin({
+        _: "lodash"
+      })
     ]
   },
-  /*
-  ** 拡張の読み込み
-  */
-  modules: [
-    /*
-    ** 共通 SASS 変数読み込み
-    */
-    ["nuxt-sass-resources-loader", ["@/scss/main.scss"]]
-  ],
   env: {
-    JSONDATAPATH: `${process.env.ROUTER_BASE || ""}data/`,
+    ROUTEPATH: `${process.env.ROUTER_BASE || ""}`,
+    JSONDATAPATH: "data/",
     GITHUBUSERID: "manyhotcakes",
     PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa"
   }

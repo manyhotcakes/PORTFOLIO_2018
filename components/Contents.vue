@@ -96,7 +96,6 @@ $cos: 0.97629600711993;
 <script>
 import Histories from "~/components/contents/Histories.vue"
 import Lock from "~/components/contents/Lock.vue"
-import Loading from "~/components/contents/Loading.vue"
 export default {
   // TODO 開発終了後に戻す
   // errorCaptured (err, vm, info){
@@ -108,11 +107,8 @@ export default {
   // },
 
   components: {
-    Iam: () => ({
-      component: import("~/components/contents/Iam.vue"),
-      loading: Loading,
-      error: Lock
-    }),
+    Iam: () => import("~/components/contents/Iam.vue"),
+    Works: () => import("~/components/contents/Works.vue"),
     Histories,
     Lock
   },

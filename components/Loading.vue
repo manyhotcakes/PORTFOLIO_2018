@@ -189,8 +189,6 @@ $indicator-size: 5rem;
 </style>
 
 <script>
-import _ from "lodash"
-import axios from "axios"
 const TIMEOUT = 1000 //5000; TODO 戻す
 
 export default {
@@ -210,14 +208,14 @@ export default {
     const initTasks = [
       // GitHub からアイコン取得
       (async () => {
-        const { data: user } = await axios.get(
+        const user = await this.$axios.$get(
           `https://api.github.com/users/${process.env.GITHUBUSERID}`
         )
         this.textContents = user.name
         this.imageContents = `url(${user.avatar_url})`
       })(),
       // HTML中のpreload指定された画像の読み込み完了待ち
-      (async () => {
+      (() => {
         return new Promise(resolve => {
           this.$watch(() => this.$store.getters["preload/isFinish"], function(
             newval
@@ -234,7 +232,7 @@ export default {
         })
       })(),
       // 処理が早く終わりすぎたときのための wait
-      (async () => {
+      (() => {
         return new Promise(function(resolve) {
           setTimeout(resolve, 1000, "foo")
           console.log("settimeout loaded")
@@ -244,7 +242,9 @@ export default {
 
     return (async () => {
       // 上記のタスクがすべて完了したタイミングで、ロード表現の終了
-      await Promise.all(initTasks)
+      // await Promise.all(initTasks) //TODO コメント解除
+      Promise.all(initTasks) //TODO 削除
+      this.$store.commit("preload/finish") //TODO 削除
       this.stateClass.push("isEnd")
       this.stateClass = _.uniq(this.stateClass)
     })().catch(res => {

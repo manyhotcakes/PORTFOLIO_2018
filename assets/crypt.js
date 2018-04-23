@@ -10,7 +10,6 @@ export default class Crypt {
    * @return {Crypt} 自身
    */
   init() {
-    // var key = Enc.Hex.parse('000102030405060708090a0b0c0d0e0f');
     this.config = {
       mode: mode.CBC,
       padding: pad.Pkcs7
@@ -65,13 +64,14 @@ export default class Crypt {
    * @return {String}           複合した文字列
    */
   decrypt(encryptedData, _pw) {
+    /* eslint-disable */
     const [ivStr, saltStr, encryptStr] = encryptedData.split(":")
     const iv = enc.Hex.parse(ivStr)
     const salt = enc.Hex.parse(saltStr)
-    const encrypt = encryptStr
+    // const encrypt = encryptStr
     const key = this.getKey(_pw, salt)
     const decrypted = AES.decrypt(
-      encrypt,
+      encryptStr,
       key,
       Object.assign(this.config, { iv })
     )
