@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-html="body"/>
-    <loading v-if="!body" :color="color"/>
+    <div v-html="crypts.body"/>
+    <loading v-if="!crypts.body" :color="color"/>
   </div>
 </template>
 
 <script>
-import mixin from "~/assets/encryptComponentMixin.js"
+import mixin from "~/components/mixin/_EncryptComponent.js"
 
 export default {
   name: "Iam",

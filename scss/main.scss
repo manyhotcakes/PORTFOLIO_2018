@@ -2,6 +2,7 @@
 * USE ITCSS Rule
 * https://qiita.com/tosaka07/items/5d870bd3b8c5ae840ed8
 */
+$separate: 3; //3分割
 
 /**
 * 01 settings
@@ -19,11 +20,11 @@
 /**
 * 04 elements
 */
-
+@import '_elements.heading';
 /**
-* 05 objects
+* 05 objects(layer)
 */
-
+@import '_objects.squareimage';
 /**
 * 06 components
 */

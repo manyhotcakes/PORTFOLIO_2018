@@ -1,9 +1,26 @@
-export const state = () => ({
-  scrollX: 0,
-  scrollY: 0,
-  windowW: 0,
-  windowH: 0
-})
+export const state = function() {
+  const data = {
+    scrollX: 0,
+    scrollY: 0,
+    windowW: 0,
+    windowH: 0,
+    modal: {}
+  }
+  // modal データは下記で組み立てる
+  // 作成するmodal以下のオブジェクト名
+  const modalContentKeys = ["works"]
+  // 各modal以下のオブジェクトの初期値
+  const modalContentInitObject = {
+    visible: false,
+    type: null,
+    contents: null
+  }
+  _.forEach(modalContentKeys, val => {
+    data.modal[val] = _.cloneDeep(modalContentInitObject)
+  })
+  console.log(data)
+  return data
+}
 export const mutations = {
   scrollUpdate(state) {
     state.scrollX = window.pageXOffset
@@ -12,6 +29,12 @@ export const mutations = {
   sizeUpdate(state) {
     state.windowW = window.innerWidth
     state.windowH = window.innerHeight
+  },
+  setModalData(state, data) {
+    state.modal = _.assign(state.modal, data)
+  },
+  unsetModalData(state) {
+    state.modal = null
   }
 }
 export const getters = {
@@ -20,5 +43,6 @@ export const getters = {
   scrollXRight: state => state.scrollX + state.windowW,
   scrollYBottom: state => state.scrollY + state.windowH,
   windowW: state => state.windowW,
-  windowH: state => state.windowH
+  windowH: state => state.windowH,
+  getModalData: state => state.modal
 }

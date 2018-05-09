@@ -241,9 +241,9 @@ export default {
 
     return (async () => {
       // 上記のタスクがすべて完了したタイミングで、ロード表現の終了
-      // await Promise.all(initTasks) //TODO コメント解除
-      Promise.all(initTasks) //TODO 削除
-      this.$store.commit("preload/finish") //TODO 削除
+      await Promise.all(initTasks) //TODO コメント解除
+      // Promise.all(initTasks) //TODO 削除
+      // this.$store.commit("preload/finish") //TODO 削除
       this.stateClass.push("isEnd")
       this.stateClass = _.uniq(this.stateClass)
     })().catch(res => {
