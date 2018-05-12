@@ -2,8 +2,10 @@
 </style>
 
 <template>
-  <div class="cryptImage">
-    <img v-if="decryptsrc" :src="decryptsrc" class="cryptImage_img" @load="loadend" >
+  <div class="wrap">
+    <lightbox :src="decryptsrc" album="mm" caption="wa hahahhahhah ">
+      <img v-if="decryptsrc" :src="decryptsrc" class="cryptImage_img" @load="loadend" >
+    </lightbox>
     <div v-if="!loaded" class="cryptImage_img cryptImage_loading">
       <i class="fas fa-spinner cryptImage_loading_icon"/>
     </div>

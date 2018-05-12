@@ -33,8 +33,7 @@ $time: 0.4s;
   opacity: 1;
   visibility: visible;
   padding: 0.3rem;
-  transition: opacity $time ease-out, transform $time ease-out,
-    visibility $time ease-out;
+  transition: opacity $time ease-out, visibility 0s ease-out;
   &_head {
     position: relative;
     height: 20px;
@@ -59,19 +58,21 @@ $time: 0.4s;
 
   &.isHide {
     opacity: 0;
-    transform: translate(-50%, 200px);
+    transform: translate(-50%, 20vh);
     visibility: hidden;
   }
 }
 .background {
   background: rgba($background-modal-color, 0.5);
   z-index: 99;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100%;
   opacity: 1;
   visibility: visible;
-  transition: opacity $time ease-out, visibility $time ease-out;
+  transition: opacity $time ease-out, visibility 0s ease-out;
   &.isHide {
     opacity: 0;
     visibility: hidden;

@@ -8,7 +8,7 @@ export const state = function() {
   }
   // modal データは下記で組み立てる
   // 作成するmodal以下のオブジェクト名
-  const modalContentKeys = ["works"]
+  const modalContentKeys = ["works", "img"]
   // 各modal以下のオブジェクトの初期値
   const modalContentInitObject = {
     visible: false,

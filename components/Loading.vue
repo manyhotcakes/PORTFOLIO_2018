@@ -160,17 +160,6 @@ $indicator-size: 5rem;
   }
 }
 /* ===================
- * ローディングインジケーターアニメ用
- =================== */
-@keyframes loading-indicator {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-/* ===================
  * 読み込み完了後にぎやかしアニメ用
  =================== */
 @keyframes loaded-effect_visual {

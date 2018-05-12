@@ -30,11 +30,9 @@ $cos: 0.97629600711993;
   flex-direction: column;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(25vh);
-  transition: opacity 0.4s linear, transform 0.4s ease-out;
+  transition: opacity 0.4s linear;
   &.isShow {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 .wrap-rightup {

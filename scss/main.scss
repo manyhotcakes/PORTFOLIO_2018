@@ -7,7 +7,8 @@ $separate: 3; //3分割
 /**
 * 01 settings
 */
-@import '_settings.color';
+@import 'settings.color';
+@import 'settings.keyframe';
 
 /**
 * 02 tools
@@ -20,16 +21,17 @@ $separate: 3; //3分割
 /**
 * 04 elements
 */
-@import '_elements.heading';
+@import 'elements.heading';
 /**
 * 05 objects(layer)
 */
-@import '_objects.squareimage';
+@import 'objects.squareimage';
 /**
 * 06 components
 */
-@import '_components.icon';
-@import '_components.load';
+@import 'components.icon';
+@import 'components.load';
+@import 'components.cryptImage';
 /**
 * 07 trumps
 */

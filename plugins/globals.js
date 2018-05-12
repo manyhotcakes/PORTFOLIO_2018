@@ -2,6 +2,8 @@ import Vue from "vue"
 import CryptImage from "~/components/contents/CryptImage.vue"
 import Crypt from "~/assets/crypt.js"
 
+import VueLightbox from "vue-lightbox"
+
 export default function(ctx, inject) {
   // crypt のグローバルインスタンス化
   const crypt = new Crypt()
@@ -10,3 +12,4 @@ export default function(ctx, inject) {
 }
 
 Vue.component("crypt-image", CryptImage)
+Vue.component("Lightbox", VueLightbox)

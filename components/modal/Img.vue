@@ -27,7 +27,7 @@
         <dd>https://~~~~</dd>
       </dl>
       <div class="l-tworow_col l-tworow_col-right l-imagelist">
-        <crypt-image-with-lb v-for="(item, key) in items" :key="key"
+        <squareimage v-for="(item, key) in items" :key="key"
                      :src="item.squareimage" :title="item.title"
                      class="l-imagelist_item"/>
       </div>
@@ -88,11 +88,10 @@
 <script>
 /* eslint-disable */
 import Squareimage from "~/components/contents/Squareimage.vue"
-import CryptImageWithLb from "~/components/contents/CryptImageWithLb.vue"
 
 export default {
   name: "Works",
-  components: {Squareimage, CryptImageWithLb},
+  components: {Squareimage},
   props: {
     contents: {
       type: [String,Object],

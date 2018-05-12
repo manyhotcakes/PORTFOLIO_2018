@@ -1,6 +1,6 @@
 export default function({ $axios, redirect }) {
   $axios.onRequest(config => {
-    config.timeout = 3000
+    // config.timeout = 3000
     config.baseURL = process.env.ROUTEPATH
   })
 
