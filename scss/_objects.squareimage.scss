@@ -1,17 +1,31 @@
+$separate-pc: 3;
+$separate-sp: 2;
 .l-imagelist {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-content: flex-start;
+  align-items: start;
   position: relative;
 }
 .l-imagelist_item {
-  flex: 0 0 (90% / $separate);
   cursor: pointer;
   margin-bottom: 5%;
+  position: relative;
 
-  &:nth-child(3n + 2):last-child {
-    margin-left: auto;
-    margin-right: (90% / $separate + 10% / ($separate - 1));
+  @include pcs() {
+    flex: 0 0 (90% / $separate-pc);
+    &:nth-child(#{$separate-pc}n + 2):last-child {
+      margin-left: auto;
+      margin-right: (90% / $separate-pc + 10% / ($separate-pc - 1));
+    }
+  }
+  @include smartphones() {
+    flex: 0 0 (90% / $separate-sp);
+    &:nth-child(#{$separate-sp}n + 1):last-child {
+      margin-left: auto;
+      margin-right: (90% / $separate-sp + 10% / ($separate-sp - 1));
+    }
   }
 }

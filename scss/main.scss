@@ -2,13 +2,14 @@
 * USE ITCSS Rule
 * https://qiita.com/tosaka07/items/5d870bd3b8c5ae840ed8
 */
-$separate: 3; //3分割
 
 /**
 * 01 settings
 */
 @import 'settings.color';
 @import 'settings.keyframe';
+@import 'settings.mediaquery';
+@import 'settings.size';
 
 /**
 * 02 tools
@@ -21,6 +22,7 @@ $separate: 3; //3分割
 /**
 * 04 elements
 */
+@import 'elements.html';
 @import 'elements.heading';
 /**
 * 05 objects(layer)

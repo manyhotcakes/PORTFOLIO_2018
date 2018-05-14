@@ -30,9 +30,6 @@ export default {
     indicatorClass: function() {
       return [`colorbg-${this.color}`]
     }
-  },
-  mounted() {
-    console.log("mounted")
   }
 }
 </script>

@@ -1,37 +1,59 @@
 <template>
 <!-- eslint-disable -->
   <article class="wrap">
-    <h2 class="modaltitle">{{contents.title}}</h2>
-    <div class="desc">
-      ベネッセポータルサイト内の教室検索サービス。2016年からCMSのシステム刷新と運用保守を担当。
-    </div>
+    <!-- <h2 class="modaltitle">{{contents.title}}</h2> -->
+    <div class="desc" v-text="contents.description"/>
     <div class="l-tworow">
-      <dl class="l-tworow_col l-tworow_col-left spec">
-        <dt>期間</dt>
-        <dd>hogehoge~hogehoge</dd>
-        <dt>役割</dt>
-        <dd>hogehoge~hogehogehogehoge~hogehoge</dd>
-        <dt>チーム規模</dt>
-        <dd>hogehoge~hogehoge</dd>
-        <dt>担当フェーズ</dt>
-        <dd>hogehoge~hogehoge</dd>
-        <dt>技術要素</dt>
-        <dd>
+      <dl class="l-tworow_col l-tworow_col-first spec">
+        <dt v-if="contents.duration">プロジェクト期間</dt>
+        <dd v-if="contents.duration" v-text="contents.duration"/>
+        <dt v-if="contents.targetdevice">対象デバイス</dt>
+        <dd v-if="contents.targetdevice" v-text="contents.targetdevice"/>
+        <dt v-if="contents.team">チーム規模</dt>
+        <dd v-if="contents.team" v-text="contents.team"/>
+        <dt v-if="contents.position">自身の役割</dt>
+        <dd v-if="contents.position">
           <ul class="sublist">
-            <li>Ruby on Rails</li>
-            <li>Ruby on Rails</li>
-            <li>Ruby on Rails</li>
+            <li v-for="(item, key) in contents.position" :key="key" v-text="item"/>
           </ul>
         </dd>
-        <dt>参考</dt>
-        <dd>https://~~~~</dd>
+        <dt v-if="contents.charge">自身の担当フェーズ</dt>
+        <dd v-if="contents.charge" v-text="contents.charge"/>
+        <dt v-if="contents.technique">技術要素</dt>
+        <dd v-if="contents.technique">
+          <ul class="sublist">
+            <li v-for="(item, key) in contents.technique" :key="key" v-text="item"/>
+          </ul>
+        </dd>
+        <dt v-if="contents.site">サイト</dt>
+        <dd v-if="contents.site">
+          <ul class="sublist">
+            <li v-for="(item, key) in contents.site" :key="key">
+              <a :href="item.url" v-text="item.title" target="_blank" rel="noopener noreferrer"/>
+            </li>
+          </ul>
+        </dd>
       </dl>
-      <div class="l-tworow_col l-tworow_col-right l-imagelist">
-        <crypt-image-with-lb v-for="(item, key) in items" :key="key"
-                     :src="item.squareimage" :title="item.title"
+      <!-- 画像 -->
+      <section class="l-tworow_col l-tworow_col-second l-imagelist">
+        <squareimage v-for="(item, idx) in contents.images" :key="idx"
+                     :src="item.image" :title="item.title"
+                     imageType="CryptImageWithLb"
                      class="l-imagelist_item"/>
-      </div>
+      </section>
+      <!-- /画像 -->
     </div>
+    <section v-if="contents.particular" class="particular">
+      <h3>こだわり</h3>
+      <div class="sublist">
+        <div v-for="(item, key) in contents.particular" :key="key">
+          <h4 class="particular_title" v-text="item.title"/>
+          <div>
+            <p v-for="(item_c, key_c) in item.body" :key="key_c" v-html="item_c" class="particular_body"/>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
 </template>
 
@@ -39,48 +61,78 @@
 .wrap {
   text-align: left;
 }
-.modaltitle {
-}
 .desc {
-  font-size: 0.5rem;
-  margin: 10px 0 40px;
+  font-size: 1rem;
+  margin: $sz-line-section 0 $sz-contents-section;
 }
 .l-tworow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: $sz-line-section;
   &_col {
-    &-left {
+    &-first {
+      // PC:左側 SP:下側
       flex: 0 0 30%;
-      padding-right: 10px;
+      padding-right: $sz-line-section;
+      @include smartphones() {
+        padding-right: 0;
+      }
     }
-    &-right {
+    &-second {
+      // PC:右側 SP:上側
       flex: 0 0 70%;
-      // border-left: 0.5px solid #aaa;
-      padding-left: 10px;
+      padding-left: $sz-line-section;
+      @include smartphones() {
+        margin-bottom: $sz-group-section;
+        padding-left: 0;
+      }
     }
+  }
+  @include smartphones() {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
   }
 }
 .spec {
-  font-size: 0.5rem;
+  font-size: 1rem;
   word-break: break-all;
   & > dt {
-    margin-top: 10px;
-    font-weight: bold;
+    @extend h3;
+    margin: $sz-line-section 0 ($sz-line-section/2);
     &:first-child {
       margin-top: 0;
     }
   }
   & > dd {
-    padding-left: 20px;
+    padding-left: $sz-group-section;
   }
 }
 .sublist {
   list-style: circle;
-  padding-left: 1em;
+  padding-left: 1rem;
   & > li {
     margin: 4px 0;
     padding: 0;
+  }
+}
+.particular {
+  &_title {
+    margin: $sz-line-section 0 ($sz-line-section/2) 0;
+  }
+  &_body {
+    white-space: pre-wrap;
+    margin-top: ($sz-line-section/2);
+    text-indent: 1rem;
+    padding-left: 1rem;
+    line-height: 1.4rem;
+    &:first-child {
+      margin-top: 0;
+    }
+    & /deep/ b {
+      font-weight: bold;
+      color: $color1;
+    }
   }
 }
 </style>
@@ -88,41 +140,19 @@
 <script>
 /* eslint-disable */
 import Squareimage from "~/components/contents/Squareimage.vue"
-import CryptImageWithLb from "~/components/contents/CryptImageWithLb.vue"
+// import CryptImageWithLb from "~/components/contents/CryptImageWithLb.vue"
 
 export default {
   name: "Works",
-  components: {Squareimage, CryptImageWithLb},
+  components: {Squareimage},
   props: {
     contents: {
-      type: [String,Object],
+      type: [Object],
       required: true
     }
   },
   data: function() {
     return {
-      items: {
-        "01": {
-          title: "",
-          squareimage: "data/img/ss01_01.json"
-        },
-        "02": {
-          title: "",
-          squareimage: "data/img/ss01_02.json",
-        },
-        "03": {
-          title: "",
-          squareimage: "data/img/ss01_03.json",
-        },
-        "04": {
-          title: "",
-          squareimage: "data/img/ss01_04.json",
-        },
-        "05": {
-          title: "",
-          squareimage: "data/img/ss01_05.json"
-        },
-      }
     }
   },
   mounted: function() {

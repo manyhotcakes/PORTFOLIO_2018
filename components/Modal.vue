@@ -1,8 +1,10 @@
 <template>
 <!-- eslint-disable -->
   <div class="wrap">
-    <div class="modal" :class="modalClass" :style="{ top: posy }" @open="show">
+    <div class="background" :class="modalClass" @click="close"/>
+    <div class="modal" :class="modalClass" @open="show">
       <div class="modal_head">
+        <h2 class="modal_head_title">{{contents ? contents.title : ""}}</h2>
         <div class="modal_head_close" @click="close">
           <i class="far fa-times-circle"></i>
         </div>
@@ -11,40 +13,44 @@
       <div class="modal_foot">
       </div>
     </div>
-    <div class="background" :class="modalClass" @click="close">
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 $time: 0.4s;
 .modal {
-  position: absolute;
-  top: 200px;
+  position: fixed;
+  top: 10px;
   left: 50%;
   transform: translate(-50%, 0);
   width: 80%;
-  height: auto;
+  height: calc(100% - 20px);
   max-width: 864px;
   background-color: white;
   border-radius: 10px;
   z-index: 100;
-  overflow: hidden;
+  overflow-x: hidden;
   opacity: 1;
   visibility: visible;
-  padding: 0.3rem;
+  padding: $sz-line-section;
   transition: opacity $time ease-out, visibility 0s ease-out;
   &_head {
     position: relative;
-    height: 20px;
+    min-height: 20px;
+    &_title {
+      text-align: left;
+      white-space: pre-wrap;
+      margin-right: 20px;
+    }
     &_close {
       position: absolute;
+      top: 0;
       right: 0;
       cursor: pointer;
-      font-size: 1rem;
-      line-height: 1rem;
-      height: 1rem;
-      width: 1rem;
+      font-size: 20px;
+      line-height: 20px;
+      height: 20px;
+      width: 20px;
       vertical-align: middle;
       color: #444;
     }
@@ -70,6 +76,7 @@ $time: 0.4s;
   left: 0;
   width: 100vw;
   height: 100%;
+  overflow: hidden;
   opacity: 1;
   visibility: visible;
   transition: opacity $time ease-out, visibility 0s ease-out;
@@ -115,9 +122,11 @@ export default {
     close() {
       console.log({[this.contentKey]:{visible: false}})
       this.$store.commit("window/setModalData", {[this.contentKey]:{visible: false}})
+      this.$store.commit("window/setScrollStop", false)
     },
     show() {
       this.$store.commit("window/setModalData", {[this.contentKey]:{visible: true}})
+      this.$store.commit("window/setScrollStop", true)
     }
   },
   computed: {

@@ -4,6 +4,7 @@ export const state = function() {
     scrollY: 0,
     windowW: 0,
     windowH: 0,
+    isScrollStop: false,
     modal: {}
   }
   // modal データは下記で組み立てる
@@ -33,6 +34,9 @@ export const mutations = {
   setModalData(state, data) {
     state.modal = _.assign(state.modal, data)
   },
+  setScrollStop(state, bool) {
+    state.isScrollStop = !!bool
+  },
   unsetModalData(state) {
     state.modal = null
   }
@@ -44,5 +48,6 @@ export const getters = {
   scrollYBottom: state => state.scrollY + state.windowH,
   windowW: state => state.windowW,
   windowH: state => state.windowH,
-  getModalData: state => state.modal
+  getModalData: state => state.modal,
+  isScrollStop: state => state.isScrollStop
 }

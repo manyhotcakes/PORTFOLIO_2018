@@ -3,7 +3,6 @@ export const state = () => ({
 })
 export const mutations = {
   pw(state, pw) {
-    console.log(pw)
     state.pw = pw
   }
 }

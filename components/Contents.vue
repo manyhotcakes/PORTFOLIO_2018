@@ -138,9 +138,9 @@ export default {
   computed: {
     wrapClass() {
       const res = [`wrap-${this.slashType}`]
-      if (this.scrollY < this.$store.getters["window/scrollYBottom"]) {
-        res.push("isShow")
-      }
+      // if (this.scrollY < this.$store.getters["window/scrollYBottom"]) {
+      res.push("isShow")
+      // }
       return res
     },
     slashClass() {

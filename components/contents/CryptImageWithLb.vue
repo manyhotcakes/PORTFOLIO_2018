@@ -3,7 +3,7 @@
 
 <template>
   <div class="wrap">
-    <lightbox :src="decryptsrc" album="mm" caption="wa hahahhahhah ">
+    <lightbox :src="decryptsrc" :caption="caption" show-index="false">
       <img v-if="decryptsrc" :src="decryptsrc" class="cryptImage_img" @load="loadend" >
     </lightbox>
     <div v-if="!loaded" class="cryptImage_img cryptImage_loading">
@@ -17,6 +17,12 @@
 import mixin from "~/components/mixin/_CryptImage.js"
 
 export default {
-  mixins: [mixin]
+  mixins: [mixin],
+  props: {
+    caption: {
+      type: [String],
+      required: true
+    }
+  },
 }
 </script>

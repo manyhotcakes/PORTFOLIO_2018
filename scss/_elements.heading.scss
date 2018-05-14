@@ -1,7 +1,14 @@
 h1 {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 h2 {
-  font-size: 0.7rem;
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  background: $color1;
+  color: $background-color;
+  padding: 0.2rem;
 }
