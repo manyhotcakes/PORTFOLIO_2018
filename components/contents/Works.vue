@@ -3,15 +3,14 @@
 
 <template>
   <section>
-    <h1>Works</h1>
-    <div class="l-works l-imagelist">
+    <div v-if="loadend" class="l-works l-imagelist">
       <squareimage v-for="(item, key) in items" :key="key"
                    :src="item.topimage"
                    :title="item.title"
                    class="l-imagelist_item"
                    @click.native="openModal(item, key)"/>
     </div>
-    <div v-if="isShowModal">HOGEHOGE</div>
+    <loading v-if="!loadend" :color="color"/>
   </section>
 </template>
 
@@ -26,7 +25,7 @@ export default {
   data() {
     return {
       items: {},
-      decryptFlg: false
+      decryptFlg: true
     }
   },
   methods: {

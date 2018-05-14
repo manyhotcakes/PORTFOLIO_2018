@@ -4,12 +4,11 @@
       <div :class="slashClass" class="slash slash-top" />
       <div :class="slashClass" class="slash slash-bottom" />
       <div :class="boxClass" class="box" >
-        <keep-alive>
-          <component :is="currentContentsComponent"
-                     :color="color"
-                     class="body"
-                     @authentication="onAuthentication"/>
-        </keep-alive>
+        <h1 v-if="contentsTitle" class="title" v-text="contentsTitle"/>
+        <component :is="currentContentsComponent"
+                   :color="color"
+                   class="body"
+                   @authentication="onAuthentication"/>
       </div>
     </div>
   </div>
@@ -81,13 +80,14 @@ $cos: 0.97629600711993;
   align-items: center;
   text-align: center;
   flex-direction: column;
+  z-index: 2;
 }
 .body {
-  z-index: 2;
   font-size: 1rem;
   width: 80%;
   height: auto;
   transition: height 0.4s ease-out;
+  position: relative;
 }
 </style>
 
@@ -123,6 +123,11 @@ export default {
       type: [String, Array],
       default: "",
       required: true
+    },
+    contentsTitle: {
+      type: String,
+      default: "",
+      required: false
     }
   },
   data: function() {

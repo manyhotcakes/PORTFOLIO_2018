@@ -7,7 +7,14 @@ export default {
   data() {
     return {
       crypts: {},
-      decryptFlg: true
+      decryptFlg: true,
+      loadend: false
+    }
+  },
+  props: {
+    color: {
+      type: String,
+      required: true
     }
   },
   /**
@@ -42,7 +49,9 @@ export default {
         this.$set(this.crypts, k, v)
       })
 
-      return await this.onFinish()
+      const rs = await this.onFinish()
+      this.loadend = true
+      return rs
     })()
   },
   methods: {
