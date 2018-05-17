@@ -4,6 +4,7 @@ $time: 0.3s;
   width: 100%;
   position: relative;
   overflow: hidden;
+  animation: fadeIn 0.4s ease 0s 1 normal;
   &:before {
     content: "";
     padding-top: 100%;
@@ -11,7 +12,7 @@ $time: 0.3s;
   }
   &:hover {
     .squareImage_content {
-      filter: brightness(20%) grayscale(100%);
+      filter: brightness(20%);
     }
     .squareImage_title {
       opacity: 1;
@@ -25,7 +26,7 @@ $time: 0.3s;
   transition: filter $time linear;
   width: 100%;
   height: 100%;
-  filter: brightness(100%) grayscale(0%);
+  filter: brightness(100%);
 }
 .squareImage_title {
   position: absolute;
@@ -69,8 +70,8 @@ export default {
     }
   },
   components: {
-    CryptImage: () => import("~/components/contents/CryptImage.vue"),
-    CryptImageWithLb: () => import("~/components/contents/CryptImageWithLb.vue")
+    CryptImage: () => import("~/components/plugins/CryptImage.vue"),
+    CryptImageWithLb: () => import("~/components/plugins/CryptImageWithLb.vue")
   }
 }
 </script>

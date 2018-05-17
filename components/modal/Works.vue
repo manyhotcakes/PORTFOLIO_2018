@@ -44,7 +44,7 @@
       <!-- /画像 -->
     </div>
     <section v-if="contents.particular" class="particular">
-      <h3>こだわり</h3>
+      <h3 class="subtitle">こだわり</h3>
       <div class="sublist">
         <div v-for="(item, key) in contents.particular" :key="key">
           <h4 class="particular_title" v-text="item.title"/>
@@ -61,8 +61,12 @@
 .wrap {
   text-align: left;
 }
+.subtitle {
+  background: $color1;
+  color: $background-color;
+  line-height: 1;
+}
 .desc {
-  font-size: 1rem;
   margin: $sz-line-section 0 $sz-contents-section;
 }
 .l-tworow {
@@ -95,10 +99,10 @@
   }
 }
 .spec {
-  font-size: 1rem;
   word-break: break-all;
   & > dt {
-    @extend %h3;
+    @extend .subtitle;
+    @include h3;
     margin: $sz-line-section 0 ($sz-line-section/2);
     &:first-child {
       margin-top: 0;
@@ -109,12 +113,7 @@
   }
 }
 .sublist {
-  list-style: circle;
-  padding-left: 1rem;
-  & > li {
-    margin: 4px 0;
-    padding: 0;
-  }
+  @include ul;
 }
 .particular {
   &_title {

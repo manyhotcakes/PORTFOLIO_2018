@@ -1,7 +1,7 @@
 import Vue from "vue"
-import CryptImage from "~/components/contents/CryptImage.vue"
 import Crypt from "~/assets/js/crypt.js"
 
+import AOut from "~/components/plugins/AOut.vue"
 import VueLightbox from "vue-lightbox"
 
 export default function(ctx, inject) {
@@ -11,5 +11,5 @@ export default function(ctx, inject) {
   inject("crypt", crypt)
 }
 
-Vue.component("crypt-image", CryptImage)
+Vue.component("AOut", AOut)
 Vue.component("Lightbox", VueLightbox)

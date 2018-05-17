@@ -6,6 +6,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: fadeIn 0.4s ease 0s 1 normal;
 }
 .cryptImage_loading {
   position: absolute;

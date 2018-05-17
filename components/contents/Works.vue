@@ -1,8 +1,11 @@
 <style lang="scss" scoped>
+.body {
+  transition: height 0.4s ease-out;
+}
 </style>
 
 <template>
-  <section>
+  <section class="body">
     <div v-if="loadend" class="l-works l-imagelist">
       <squareimage v-for="(item, key) in items" :key="key"
                    :src="item.topimage"
@@ -10,7 +13,7 @@
                    class="l-imagelist_item"
                    @click.native="openModal(item, key)"/>
     </div>
-    <loading v-if="!loadend" :color="color"/>
+    <loading v-if="!loadend" :color="color" :processing="loadingProcessing"/>
   </section>
 </template>
 

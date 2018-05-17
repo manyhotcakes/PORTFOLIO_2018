@@ -2,23 +2,31 @@
 .body {
   width: 100%;
   height: 10rem;
+  position: relative;
+  animation: fadeIn 0.4s ease 0s 1 normal;
 }
-.indicator {
+.lineIndicator {
+  width: 80%;
+  height: 0.5rem;
+  min-height: 6px;
+  border: 1px solid white;
+  margin: auto;
+  position: absolute;
   top: 0;
-  left: 0;
   bottom: 0;
+  left: 0;
   right: 0;
-  @include indicatorSize(4rem, 4rem);
-  @each $key, $color in $colors {
-    &.colorbg-#{$key} {
-      @include indicatorColor(white, $color);
-    }
+  &_loaded {
+    height: 100%;
+    background-color: white;
   }
 }
 </style>
 <template>
-  <div class="body">
-    <div :class="indicatorClass" class="indicator isLoading"/>
+  <div :class="bodyClass" class="body">
+    <div class="lineIndicator">
+      <div :style="indicatorLineStyle" class="lineIndicator_loaded"/>
+    </div>
   </div>
 </template>
 
@@ -28,11 +36,30 @@ export default {
     color: {
       type: String,
       required: true
+    },
+    processing: {
+      type: Object,
+      required: false,
+      default: () => ({
+        now: 0,
+        max: 0
+      })
+    }
+  },
+  data() {
+    return {
+      bodyClass: []
     }
   },
   computed: {
-    indicatorClass: function() {
+    indicatorClass() {
       return [`colorbg-${this.color}`]
+    },
+    indicatorLineStyle() {
+      console.log(this.processing.max, this.processing.now)
+      return {
+        width: `${this.processing.now / this.processing.max * 100}%`
+      }
     }
   }
 }

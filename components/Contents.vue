@@ -4,11 +4,13 @@
       <div :class="slashClass" class="slash slash-top" />
       <div :class="slashClass" class="slash slash-bottom" />
       <div :class="boxClass" class="box" >
-        <h1 v-if="contentsTitle" class="title" v-text="contentsTitle"/>
-        <component :is="currentContentsComponent"
-                   :color="color"
-                   class="body"
-                   @authentication="onAuthentication"/>
+        <div class="l-box_in">
+          <h1 v-if="contentsTitle" class="title" v-text="contentsTitle"/>
+          <component :is="currentContentsComponent"
+                     :color="color"
+                     class="body"
+                     @authentication="onAuthentication"/>
+        </div>
       </div>
     </div>
   </div>
@@ -82,12 +84,20 @@ $cos: 0.97629600711993;
   flex-direction: column;
   z-index: 2;
 }
+.l-box_in {
+  max-width: $sz-contents-width;
+  width: 80%;
+  margin: auto;
+}
 .body {
   font-size: 1rem;
-  width: 80%;
   height: auto;
   transition: height 0.4s ease-out;
   position: relative;
+  margin: auto;
+}
+.title {
+  text-align: left;
 }
 </style>
 
@@ -105,7 +115,8 @@ export default {
   // },
 
   components: {
-    Iam: () => import("~/components/contents/Iam.vue"),
+    Profile: () => import("~/components/contents/Profile.vue"),
+    About: () => import("~/components/contents/About.vue"),
     Works: () => import("~/components/contents/Works.vue"),
     Histories,
     Lock

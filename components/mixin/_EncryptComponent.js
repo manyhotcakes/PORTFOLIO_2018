@@ -11,7 +11,11 @@ export default {
     return {
       crypts: {},
       decryptFlg: true,
-      loadend: false
+      loadend: false,
+      loadingProcessing: {
+        now: 0,
+        max: 0
+      }
     }
   },
   props: {
@@ -37,12 +41,25 @@ export default {
         `${process.env.JSONDATAPATH}${this.$options.name}template.json`
       )
 
-      const decrypts = await this.mapValuesDeep(encrypts)
+      // 現在の読み込み進捗度の分母を設定
+      this.$set(this.loadingProcessing, "max", (() => {
+        let count = 0
+        _.cloneDeepWith(encrypts, (value) => {
+          !_.isPlainObject(value) && !_.isArray(value) ? count ++ : 0
+        })
+        return count
+      })())
+
+      let decrypts
+      if (this.decryptFlg) {
+        decrypts = await this.mapValuesDeep(encrypts)
+      } else {
+        decrypts = _.cloneDeep(encrypts)
+      }
 
       // コンポーネントへの組み込み
       // 読み込んだ json と同一のkeyに格納される
       _.forEach(decrypts, (v, k) => {
-        console.log(k, v)
         this.$set(this.crypts, k, v)
       })
 
@@ -111,7 +128,12 @@ export default {
           }
 
           // ダミーのプロミス。呼び出しと同時に完了
-          return new Promise((resolve) => resolve())
+          return new Promise((resolve) =>
+            resolve()
+          ).then(() => {
+            // 現在の読み込み進捗度の更新
+            this.$set(this.loadingProcessing, "now", idx)
+          })
         }
       }
       // 引数値のオリジナルを保存

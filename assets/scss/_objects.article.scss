@@ -1,0 +1,25 @@
+.l-body {
+  text-align: left;
+}
+.l-intro {
+  &:not(:last-child) {
+    margin-bottom: $sz-contents-section;
+  }
+}
+.intro {
+  &_line {
+    &:not(:last-child) {
+      margin-bottom: $sz-line-section;
+    }
+  }
+}
+.subtitle {
+  $t-width: 60%;
+  & > * {
+    background: linear-gradient(
+      180deg,
+      transparent $t-width,
+      rgba(#fff, 0.4) $t-width
+    );
+  }
+}

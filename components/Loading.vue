@@ -118,7 +118,6 @@ $indicator-size: 5rem;
 }
 .title_contents {
   white-space: nowrap;
-  font-family: "Raleway", sans-serif;
   text-align: center;
   width: 100vw;
 }
@@ -127,6 +126,9 @@ $indicator-size: 5rem;
     font-size: 3.5rem;
     line-height: 3.5rem;
     color: $title1-color;
+    @include smartphones() {
+      font-size: 11vw;
+    }
   }
 }
 .title-2 {

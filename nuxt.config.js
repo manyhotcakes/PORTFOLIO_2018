@@ -30,6 +30,10 @@ module.exports = {
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css?family=Raleway"
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css"
       }
     ]
   },

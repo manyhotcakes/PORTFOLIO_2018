@@ -1,9 +1,10 @@
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: "Mplus 1p", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   overflow-x: hidden;
   word-spacing: 1px;
+  line-height: 1.5;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -11,8 +12,26 @@ html {
   box-sizing: border-box;
   background-color: $background-color;
   @include smartphones() {
-    font-size: calc(100vw / 51.2);
+    font-size: calc(10px + 1.5vw);
+    // font-size: 14px;
   }
+}
+a {
+  transition: opacity 0.15s linear;
+  text-decoration-style: dotted;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  color: inherit;
+  &:visited {
+    color: inherit;
+  }
+  &:hover,
+  &:active {
+    opacity: 0.5;
+  }
+}
+b {
+  position: relative;
 }
 *,
 *:before,

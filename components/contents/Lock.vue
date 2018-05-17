@@ -12,9 +12,9 @@
   padding: 10px;
   border: solid 1px rgba(0, 0, 0, 0.3);
   border-radius: 30px;
-  width: 40%;
-  min-width: 300px;
-  max-width: 600px;
+  width: 100%;
+  min-width: 200px;
+  max-width: 400px;
   text-align: center;
   outline: 0;
   &::placeholder {
