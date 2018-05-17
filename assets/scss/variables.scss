@@ -1,0 +1,17 @@
+/**
+* USE ITCSS Rule
+* https://qiita.com/tosaka07/items/5d870bd3b8c5ae840ed8
+*/
+
+/**
+* 01 settings
+*/
+@import 'settings.color';
+@import 'settings.mediaquery';
+@import 'settings.size';
+
+/**
+* 02 tools
+*/
+@import 'tools.loading';
+@import 'tools.heading';

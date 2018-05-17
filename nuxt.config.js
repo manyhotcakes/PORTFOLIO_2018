@@ -47,7 +47,7 @@ module.exports = {
     /*
     ** 共通 SASS 変数読み込み
     */
-    ["nuxt-sass-resources-loader", ["@/scss/main.scss"]],
+    ["nuxt-sass-resources-loader", ["@/assets/scss/variables.scss"]],
     "@nuxtjs/axios"
   ],
   plugins: [
@@ -56,7 +56,7 @@ module.exports = {
     "@/plugins/preload.js",
     "@/plugins/validator.js"
   ],
-
+  css: [{ src: "@/assets/scss/main.scss", lang: "scss" }],
   /*
   ** Build configuration
   */
@@ -74,6 +74,15 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      config.module.rules.push({
+        include: require("path").resolve(__dirname, "assets/js/worker/"),
+        test: /.js$/,
+        use: { loader: "worker-loader" }
+      })
+      // config.entry.worker = "@/assets/js/worker/worker.js"
+      // console.log(config.output, config.entry)
+      // config.output.path = "/"
+      // config.output.filename = "[name].js"
     },
     postcss: [
       require("autoprefixer")({
@@ -96,6 +105,7 @@ module.exports = {
     ROUTEPATH: `${process.env.ROUTER_BASE || ""}`,
     JSONDATAPATH: "data/",
     GITHUBUSERID: "manyhotcakes",
-    PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa"
+    PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa",
+    WORKER_MAXNUM: 4
   }
 }

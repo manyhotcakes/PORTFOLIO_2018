@@ -1,0 +1,19 @@
+$loading-sec: .8s;
+$loadendscale-sec: .4s;
+$indicator-size: 5rem;
+
+@mixin indicatorColor($color: white, $bgcolor: $background-color){
+  &.isLoading{
+    background: linear-gradient(to right, $color 10%, rgba($bgcolor, 0) 50%);
+  }
+  &:before{
+    background: $color;
+  }
+  &:after{
+    background: $bgcolor;
+  }
+}
+@mixin indicatorSize($width: $indicator-size, $height: $indicator-size){
+  width: $width;
+  height: $height;
+}

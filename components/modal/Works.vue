@@ -98,7 +98,7 @@
   font-size: 1rem;
   word-break: break-all;
   & > dt {
-    @extend h3;
+    @extend %h3;
     margin: $sz-line-section 0 ($sz-line-section/2);
     &:first-child {
       margin-top: 0;

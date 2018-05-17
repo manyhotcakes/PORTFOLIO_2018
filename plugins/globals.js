@@ -1,6 +1,6 @@
 import Vue from "vue"
 import CryptImage from "~/components/contents/CryptImage.vue"
-import Crypt from "~/assets/crypt.js"
+import Crypt from "~/assets/js/crypt.js"
 
 import VueLightbox from "vue-lightbox"
 

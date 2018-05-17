@@ -2,18 +2,7 @@
 * USE ITCSS Rule
 * https://qiita.com/tosaka07/items/5d870bd3b8c5ae840ed8
 */
-
-/**
-* 01 settings
-*/
-@import 'settings.color';
-@import 'settings.keyframe';
-@import 'settings.mediaquery';
-@import 'settings.size';
-
-/**
-* 02 tools
-*/
+@import 'variables';
 
 /**
 * 03 generic
@@ -28,6 +17,7 @@
 * 05 objects(layer)
 */
 @import 'objects.squareimage';
+@import 'objects.keyframe';
 /**
 * 06 components
 */
@@ -37,3 +27,4 @@
 /**
 * 07 trumps
 */
+@import 'trumps.color';
