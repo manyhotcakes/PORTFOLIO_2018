@@ -18,9 +18,6 @@
 
 <style lang="scss" scoped>
 // variables
-$deg: 12.5deg;
-$tan: 0.22169466264294;
-$cos: 0.97629600711993;
 // styles
 .wrap {
   width: 100%;
@@ -48,21 +45,21 @@ $cos: 0.97629600711993;
 .slash {
   position: absolute;
   width: 150vw;
-  height: calc(100vw * #{$tan});
+  height: calc(100vw * #{$slashtan});
   z-index: 1;
 }
 .slash-rightup {
   transform-origin: bottom left;
   left: 0;
-  transform: rotateZ(-#{$deg});
+  transform: rotateZ(-#{$slashdeg});
 }
 .slash-leftup {
   transform-origin: bottom right;
   right: 0;
-  transform: rotateZ(#{$deg});
+  transform: rotateZ(#{$slashdeg});
 }
 .slash-top {
-  top: calc(100vw * #{$tan});
+  top: calc(100vw * #{$slashtan});
 }
 .slash-bottom {
   bottom: 0;
@@ -72,7 +69,7 @@ $cos: 0.97629600711993;
   position: relative;
   width: 100vw;
   box-sizing: border-box;
-  padding: calc(100vw * #{$tan}) 0;
+  padding: calc(100vw * #{$slashtan}) 0;
   margin: 1vw 0;
 }
 .box {

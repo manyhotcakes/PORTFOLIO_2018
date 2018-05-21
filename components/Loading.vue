@@ -14,6 +14,9 @@
       <div :class="stateClass" class="wrap_title title title-2">
         <div class="title_contents title-2_contents">Portfolio</div>
       </div>
+      <div>
+        <video id="bgvideo" :class="backgroundClass" src="bgvideo.mp4" poster="3x2_blank.png" preload="auto" loop class="background"/>
+      </div>
     </div>
   </div>
 </template>
@@ -161,6 +164,44 @@ $indicator-size: 5rem;
     height: $indicator-size;
   }
 }
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  // width: 100%;
+  height: calc(100vh + 100vw * #{$slashtan} + 20px);
+  // animation: fadeIn 1s ease 0s 1 normal;
+  z-index: -10;
+  opacity: 0.3;
+  &.isFadeInOut {
+    animation: fadeInOut 3s ease 0s 1 normal;
+  }
+  &.isFadeIn {
+    animation: fadeIn 3s ease 0s 1 normal;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.3;
+    }
+  }
+}
+
 /* ===================
  * 読み込み完了後にぎやかしアニメ用
  =================== */
@@ -191,10 +232,29 @@ export default {
       // タイトルテキスト
       textContents: " ",
       // 表示画像パス
-      imageContents: ""
+      imageContents: "",
+      // 背景ビデオ用
+      backgroundClass: ""
     }
   },
   mounted: function() {
+    // 動画のループ再生（自前）
+    const video = document.getElementById("bgvideo")
+    video.addEventListener("timeupdate", event => {
+      const { currentTime } = event.target
+      if (currentTime > 5) {
+        this.backgroundClass = ""
+      }
+      if (currentTime > 8.5) {
+        this.backgroundClass = "isFadeInOut"
+      }
+      // 動画がハレーション起こす映像になったタイミングでずらす。
+      // 同時にこのタイミングでは CSS animation で opacity 0 になっている
+      if (currentTime > 9.5) {
+        event.target.currentTime = 2
+      }
+    })
+
     // 初期化処理で非同期に処理完了を待つタスク一覧
     const initTasks = [
       // GitHub からアイコン取得
@@ -265,6 +325,13 @@ export default {
         this.stateClass = ["isFinish"]
         // store に保存
         this.$store.commit("preload/finish")
+        this.backgroundClass = "isFadeIn"
+        this.$nextTick(() => {
+          const video = document.getElementById("bgvideo")
+          video.currentTime = 0.1
+          video.playbackRate = 0.75
+          document.getElementById("bgvideo").play()
+        })
       }
     }
   }
