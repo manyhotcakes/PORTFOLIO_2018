@@ -1,26 +1,3 @@
-<template>
-  <div class="wrap">
-    <div>
-      <div class="wrap_graphic" @animationend="transitionend" @transitionend="transitionend">
-        <div :class="stateClass" class="indicator" />
-        <div :style="{backgroundImage: imageContents}" :class="stateClass" class="image"/>
-        <div :class="stateClass" class="effect">
-          <div :class="stateClass" class="effect_visual"/>
-        </div>
-      </div>
-      <div :class="stateClass" class="wrap_title title title-1">
-        <div class="title_contents title-1_contents" v-text="textContents">&nbsp;</div>
-      </div>
-      <div :class="stateClass" class="wrap_title title title-2">
-        <div class="title_contents title-2_contents">Portfolio</div>
-      </div>
-      <div>
-        <video id="bgvideo" :class="backgroundClass" src="bgvideo.mp4" poster="3x2_blank.png" preload="auto" loop class="background"/>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 // variables
 $loading-sec: 0.8s;
@@ -164,7 +141,9 @@ $indicator-size: 5rem;
     height: $indicator-size;
   }
 }
-
+/* ===================
+ * 背景動画
+ =================== */
 .background {
   position: absolute;
   left: 0;
@@ -175,12 +154,16 @@ $indicator-size: 5rem;
   z-index: -10;
   opacity: 0.3;
   &.isFadeInOut {
-    animation: fadeInOut 3s ease 0s 1 normal;
+    animation: backgroundfadeInOut 3s ease 0s 1 normal;
   }
   &.isFadeIn {
-    animation: fadeIn 3s ease 0s 1 normal;
+    animation: backgroundfadeIn 3s ease 0s 1 normal;
   }
-  @keyframes fadeIn {
+  &.isHide {
+    height: 0;
+    visibility: hidden;
+  }
+  @keyframes backgroundfadeIn {
     0% {
       opacity: 0;
     }
@@ -189,7 +172,7 @@ $indicator-size: 5rem;
     }
   }
 
-  @keyframes fadeInOut {
+  @keyframes backgroundfadeInOut {
     0% {
       opacity: 0.3;
     }
@@ -218,9 +201,69 @@ $indicator-size: 5rem;
     transform: scale(4);
   }
 }
+/* ===================
+ * スクロール示唆
+ =================== */
+.l-scrollarrow {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+}
+.scrollarrow {
+  color: rgba(#000, 0.4);
+  z-indx: 10;
+  opacity: 0;
+  animation: fadeIn 1s ease-in 1s 1 normal forwards;
+  &_icon {
+    font-size: 5rem;
+    animation: arrow-effect 2s ease-out 1s infinite;
+  }
+  &.isHide {
+    animation: fadeOut 0.4s ease-in 0s 1 normal forwards;
+  }
+  @keyframes arrow-effect {
+    0% {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(0%);
+    }
+  }
+}
 </style>
-
+<template>
+  <div class="wrap">
+    <div class="wrap_graphic" @animationend="transitionend" @transitionend="transitionend">
+      <div :class="stateClass" class="indicator" />
+      <div :style="{backgroundImage: imageContents}" :class="stateClass" class="image"/>
+      <div :class="stateClass" class="effect">
+        <div :class="stateClass" class="effect_visual"/>
+      </div>
+    </div>
+    <div :class="stateClass" class="wrap_title title title-1">
+      <div class="title_contents title-1_contents" v-text="textContents">&nbsp;</div>
+    </div>
+    <div :class="stateClass" class="wrap_title title title-2">
+      <div class="title_contents title-2_contents">Portfolio</div>
+    </div>
+    <div>
+      <video id="bgvideo" :class="backgroundClass" src="bgvideo.mp4" poster="3x2_blank.png" preload="auto" loop muted class="background"/>
+    </div>
+    <div v-if="isFinish" :class="arrowClass" class="l-scrollarrow scrollarrow">
+      <i class="scrollarrow_icon fas fa-angle-double-down"/>
+    </div>
+  </div>
+</template>
 <script>
+import { mapGetters } from "vuex"
 const TIMEOUT = 1000 //5000; TODO 戻す
 
 export default {
@@ -234,7 +277,24 @@ export default {
       // 表示画像パス
       imageContents: "",
       // 背景ビデオ用
-      backgroundClass: ""
+      backgroundClass: "isHide",
+      // スクロール矢印用
+      arrowClass: ""
+    }
+  },
+  computed: {
+    ...mapGetters({
+      scrollY: "window/scrollY"
+    }),
+    isFinish() {
+      return _.includes(this.stateClass, "isFinish")
+    }
+  },
+  watch: {
+    scrollY() {
+      if (!this.arrowClass && this.scrollY > 0) {
+        this.arrowClass = "isHide"
+      }
     }
   },
   mounted: function() {
@@ -279,6 +339,13 @@ export default {
           setTimeout(() => {
             resolve()
           }, TIMEOUT)
+        })
+      })(),
+      // 背景動画の読み込み完了もしくはエラー待ち
+      (() => {
+        return new Promise(resolve => {
+          video.addEventListener("loadeddata", resolve)
+          video.addEventListener("error", resolve)
         })
       })(),
       // 処理が早く終わりすぎたときのための wait

@@ -28,7 +28,7 @@
     </section>
     <section class="intro l-intro">
       <h3 class="subtitle"><span>ITCSS を採用。</span></h3>
-      <p class="intro_line">コンポーネント内だけでなくグローバルに使用する CSS は<a-out href="https://itcss.io/">ITCSS</a-out>の記法で記述しています。一部 SMACSS の記法も採用しています。（`l-`など）</p>
+      <p class="intro_line">コンポーネント内だけでなくグローバルに使用する CSS は<a-out href="https://itcss.io/">ITCSS</a-out>の記法で記述しています。一部 SMACSS や FLOCSS の記法も採用しています。（`l-`や`is`といったプレフィックスや、ElementやModifierの命名規則など）</p>
     </section>
   </article>
 </template>

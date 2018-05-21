@@ -15,60 +15,85 @@
   user-select: none;
   overflow: hidden;
   &_overflow {
-    transform: scale(1.1);
-    transform-origin: center;
     &:before {
       content: "";
       display: block;
       padding-top: 2 / 3 * 100%;
     }
   }
-  &_left {
-    top: 0;
-    left: 0;
-    width: 50%;
-    transform-origin: left top;
-    & > img {
-      transform-origin: left top;
-      filter: sepia(1) hue-rotate(70deg) brightness(0.9) blur(2px);
-    }
-  }
-  &_right {
-    right: 0;
-    bottom: 0;
-    width: 50%;
-    transform-origin: right bottom;
-    & > img {
-      transform-origin: right bottom;
-      filter: sepia(1) hue-rotate(-10deg) brightness(0.9) blur(2px);
-    }
-  }
-  &_left,
-  &_right {
-    position: absolute;
-    overflow: hidden;
-    & > img {
-      width: 100%;
-      height: 100%;
-      transform: scale(2);
-      object-fit: contain;
-    }
-  }
   &_center {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
-    overflow: hidden;
+    width: 100%;
+  }
+  &_ribbon {
+    width: 20vw;
+    height: 130%;
+    position: absolute;
     transform-origin: center;
-    transform: skewX(-56deg);
-    & > img {
-      transform-origin: center;
-      transform: skewX(56deg);
-      width: 100%;
-      filter: grayscale(1);
+    transform: rotate(-12.5deg);
+    background: red;
+    z-index: 1;
+    &-left {
+      left: calc(-20vw * #{$slashcos});
+      top: -1vw;
+      transform-origin: right top;
+      background: $color2;
+    }
+    &-right {
+      right: calc(-20vw * #{$slashcos});
+      bottom: -1vw;
+      transform-origin: left bottom;
+      background: $color2;
     }
   }
+  // &_left {
+  //   top: 0;
+  //   left: 0;
+  //   width: 50%;
+  //   transform-origin: left top;
+  //   & > img {
+  //     transform-origin: left top;
+  //     filter: sepia(1) hue-rotate(70deg) brightness(0.9) blur(2px);
+  //   }
+  // }
+  // &_right {
+  //   right: 0;
+  //   bottom: 0;
+  //   width: 50%;
+  //   transform-origin: right bottom;
+  //   & > img {
+  //     transform-origin: right bottom;
+  //     filter: sepia(1) hue-rotate(-10deg) brightness(0.9) blur(2px);
+  //   }
+  // }
+  // &_left,
+  // &_right {
+  //   position: absolute;
+  //   overflow: hidden;
+  //   & > img {
+  //     width: 100%;
+  //     height: 100%;
+  //     transform: scale(2);
+  //     object-fit: contain;
+  //   }
+  // }
+  // &_center {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   height: 100%;
+  //   overflow: hidden;
+  //   transform-origin: center;
+  //   transform: skewX(-56deg);
+  //   & > img {
+  //     transform-origin: center;
+  //     transform: skewX(56deg);
+  //     width: 100%;
+  //     filter: grayscale(1);
+  //   }
+  // }
 }
 .name {
   @include h2;
@@ -118,15 +143,9 @@
   <article class="l-body">
     <div class="l-topimage topimage">
       <div class="topimage_overflow">
-        <div class="topimage_left">
-          <img src="profile_01.jpg">
-        </div>
-        <div class="topimage_right">
-          <img src="profile_01.jpg">
-        </div>
-        <div class="topimage_center">
-          <img src="profile_01.jpg">
-        </div>
+        <div class="topimage_ribbon topimage_ribbon-left"/>
+        <div class="topimage_ribbon topimage_ribbon-right"/>
+        <img class="topimage_center" src="profile_01.jpg">
       </div>
       <!-- <img class="topimage_right" src="profile_01.jpg"> -->
     </div>
@@ -139,7 +158,7 @@
     <div class="intro l-intro">
       <p class="intro_line">1988年兵庫県生まれ。関西学院大学卒業後、石川県のゲーム会社にゲームプログラマーの経験した後、大阪府のウェブ会社に Web エンジニアとして転職しました。
       サービス開発に携わるなかで、バックエンド、フロントエンド、インフラ領域の開発を経験しました。
-      その後、<a-out href="https://www.fenrir-inc.com/">フェンリル株式会社</a-out>に転職。 Web エンジニアとして経験したのち、プロジェクトのマネジメントを任され、開発案件/保守案件と複数の案件に従事しました。</p>
+      その後、Web サイト受託開発企業に転職。 Web エンジニアとして経験したのち、プロジェクトのマネジメントを任され、開発案件/保守案件と複数の案件に従事しました。</p>
       <p class="intro_line">柔軟性こそ正義。思い込みを避け、あらゆる可能性を考え、ソリューションを提供することが大事と考えています。</p>
     </div>
     <section class="intro l-intro">
