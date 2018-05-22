@@ -20,28 +20,6 @@ export default {
   arrayBufferToString(str) {
     return String.fromCharCode.apply(null, new Uint16Array(str))
   },
-  // objectToMap(_obj) {
-  //   const map = new Map()
-  //   const func = (v, prefix = "") => {
-  //     if (_.isPlainObject(v)) {
-  //       for (let k of Object.keys(v)) {
-  //         func(v[k], prefix ? `${prefix}.${k}` : `${k}`)
-  //       }
-  //       return map
-  //     } else if (_.isArray(v)) {
-  //       for (let i = 0; i < v.length; i++) {
-  //         // map.set(i, func(v[i], new Map()))
-  //         func(v[i], prefix ? `${prefix}.${i}` : `${i}`)
-  //       }
-  //       return map
-  //     } else {
-  //       return map.set(`${prefix}`, v)
-  //     }
-  //   }
-  //   const res = func(_obj)
-  //   console.log("hogeee", res)
-  //   return res
-  // },
   /**
    * _obj 中の _path の位置に、 _val を書き込む
    * @param {[type]} _obj  [description]
@@ -73,51 +51,47 @@ export default {
    * @return {Promise}                 [description]
    */
   async webWorkerSend(worker, key, sendData, waitRes = false, _idx = 0) {
-    var sendtext = ""
-    if (_.isObject(sendData)) {
-      sendtext = JSON.stringify(sendData)
-    } else {
-      sendtext = sendData
-    }
-    const buffer = this.stringToArrayBuffer(sendtext)
-    worker.postMessage(
-      {
-        key,
-        value: buffer,
-        idx: _idx
-      },
-      [buffer]
-    )
+    try {
+      var sendtext = ""
+      if (_.isObject(sendData)) {
+        sendtext = JSON.stringify(sendData)
+      } else {
+        sendtext = sendData
+      }
+      const buffer = this.stringToArrayBuffer(sendtext)
+      worker.postMessage(
+        {
+          key,
+          value: buffer,
+          idx: _idx
+        },
+        [buffer]
+      )
 
-    // 返却をまつときは、Promiseを返却する
-    if (waitRes) {
-      return new Promise(resolve => {
-        // EventHandler を宣言。スコープ内で宣言すること。
-        // （さもなくば removeEventListener の EventHandler と一致しなくなる）
-        const func = async message => {
-          const { value, idx } = message.data
-          if (idx !== _idx) {
-            return
+      // 返却をまつときは、Promiseを返却する
+      if (waitRes) {
+        return new Promise((resolve) => {
+          // EventHandler を宣言。スコープ内で宣言すること。
+          // （さもなくば removeEventListener の EventHandler と一致しなくなる）
+          const func = async message => {
+            const { value, idx } = message.data
+            if (idx !== _idx) {
+              return
+            }
+            const string = this.arrayBufferToString(value)
+            const object = JSON.parse(string)
+            resolve(object.text)
+            worker.removeEventListener("message", func)
           }
-          const string = this.arrayBufferToString(value)
-          const object = JSON.parse(string)
-          resolve(object.text)
-          worker.removeEventListener("message", func)
-        }
-        worker.addEventListener("message", func)
-        // worker.onmessage = message => {
-        //   const { value } = message.data
-        //   ;(async () => {
-        //     const string = this.arrayBufferToString(value)
-        //     const object = JSON.parse(string)
-        //     resolve(object.text)
-        //     worker.terminate()
-        //   })()
-        // }
-      })
-    } else {
-      // worker.terminate()
-      return
+          worker.addEventListener("message", func)
+        })
+      } else {
+        // worker.terminate()
+        return
+      }
+    } catch (err) {
+      console.error(err)
+      throw err
     }
   }
 }

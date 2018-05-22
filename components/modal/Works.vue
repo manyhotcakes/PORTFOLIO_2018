@@ -1,7 +1,7 @@
 <template>
 <!-- eslint-disable -->
   <article class="wrap">
-    <!-- <h2 class="modaltitle">{{contents.title}}</h2> -->
+    <h2 class="modaltitle">{{contents.title}}</h2>
     <div class="desc" v-text="contents.description"/>
     <div class="l-tworow">
       <dl class="l-tworow_col l-tworow_col-first spec">

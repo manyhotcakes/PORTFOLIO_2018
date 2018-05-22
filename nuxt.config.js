@@ -110,6 +110,7 @@ module.exports = {
     JSONDATAPATH: "data/",
     GITHUBUSERID: "manyhotcakes",
     PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa",
-    WORKER_MAXNUM: 4
+    WORKER_MAXNUM: 4,
+    MODALPAGEHASH_PREFIX: "#modal_"
   }
 }

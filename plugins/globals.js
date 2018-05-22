@@ -11,5 +11,13 @@ export default function(ctx, inject) {
   inject("crypt", crypt)
 }
 
+Vue.mixin({
+  methods: {
+    $delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+  }
+})
+
 Vue.component("AOut", AOut)
 Vue.component("Lightbox", VueLightbox)

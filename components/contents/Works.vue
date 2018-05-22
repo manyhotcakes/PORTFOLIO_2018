@@ -45,6 +45,7 @@ export default {
         }
       })
       this.$store.commit("window/setScrollStop", true)
+      this.$router.push("#modal_works")
     },
     async onFinish() {
       // 各要素にローディングしたパラメータの投入

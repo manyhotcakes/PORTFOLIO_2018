@@ -84,22 +84,20 @@ $indicator-size: 5rem;
   position: relative;
   width: 100%;
   overflow: hidden;
-  transition: width $loadendscale-sec linear $loadendscale-sec * 1.5;
-  &.isLoading {
-    visibility: hidden;
-    width: 0;
-  }
-  &.isLoaded {
-    width: 100%;
-  }
-}
-.title-2 {
-  transition: width $loadendscale-sec linear $loadendscale-sec * 2.5;
 }
 .title_contents {
   white-space: nowrap;
   text-align: center;
   width: 100vw;
+  height: 3.5rem;
+  &_char {
+    opacity: 0;
+    @for $key from 0 through 30 {
+      &-#{$key} {
+        animation: fadeIn 0.4s ease-in ($key * 0.1s) forwards;
+      }
+    }
+  }
 }
 .title-1 {
   &_contents {
@@ -154,10 +152,10 @@ $indicator-size: 5rem;
   z-index: -10;
   opacity: 0.3;
   &.isFadeInOut {
-    animation: backgroundfadeInOut 3s ease 0s 1 normal;
+    animation: backgroundfadeInOut 5s ease-in-out 0s 1 normal;
   }
   &.isFadeIn {
-    animation: backgroundfadeIn 3s ease 0s 1 normal;
+    animation: backgroundfadeIn 3s ease-in 0s 1 normal;
   }
   &.isHide {
     height: 0;
@@ -176,7 +174,7 @@ $indicator-size: 5rem;
     0% {
       opacity: 0.3;
     }
-    50% {
+    30% {
       opacity: 0;
     }
     100% {
@@ -248,11 +246,15 @@ $indicator-size: 5rem;
         <div :class="stateClass" class="effect_visual"/>
       </div>
     </div>
-    <div :class="stateClass" class="wrap_title title title-1">
-      <div class="title_contents title-1_contents" v-text="textContents">&nbsp;</div>
+    <div class="wrap_title title title-1">
+      <div class="title_contents title-1_contents">
+        <span v-for="(v,k) in textContents" :key="k" :class="titleContentsChars[k]" v-text="v"/>
+      </div>
     </div>
-    <div :class="stateClass" class="wrap_title title title-2">
-      <div class="title_contents title-2_contents">Portfolio</div>
+    <div class="wrap_title title title-2">
+      <div class="title_contents title-2_contents">
+        <span v-for="(v,k) in textContents2" :key="k" :class="titleContentsChars[k+10]" v-text="v" />
+      </div>
     </div>
     <div>
       <video id="bgvideo" :class="backgroundClass" src="bgvideo.mp4" poster="3x2_blank.png" preload="auto" loop muted class="background"/>
@@ -273,13 +275,16 @@ export default {
       // isLoading -> isLoaded -> isFinish で遷移
       stateClass: ["isLoading"],
       // タイトルテキスト
-      textContents: " ",
+      textContents: "",
+      textContents2: "",
       // 表示画像パス
       imageContents: "",
       // 背景ビデオ用
       backgroundClass: "isHide",
       // スクロール矢印用
-      arrowClass: ""
+      arrowClass: "",
+      // Githubのユーザ情報
+      userinfo: null
     }
   },
   computed: {
@@ -288,6 +293,18 @@ export default {
     }),
     isFinish() {
       return _.includes(this.stateClass, "isFinish")
+    },
+    isLoaded() {
+      return _.includes(this.stateClass, "isLoaded")
+    },
+    titleContentsChars() {
+      console.log(this.isLoaded || this.isFinish, "titleContentsChars")
+      return this.isLoaded || this.isFinish
+        ? Array.from(Array(30).keys()).map(v => [
+            "title_contents_char",
+            `title_contents_char-${v}`
+          ])
+        : Array.from(Array(30).keys()).map(() => "title_contents_char")
     }
   },
   watch: {
@@ -311,7 +328,7 @@ export default {
       // 動画がハレーション起こす映像になったタイミングでずらす。
       // 同時にこのタイミングでは CSS animation で opacity 0 になっている
       if (currentTime > 9.5) {
-        event.target.currentTime = 2
+        event.target.currentTime = 0.5
       }
     })
 
@@ -319,11 +336,15 @@ export default {
     const initTasks = [
       // GitHub からアイコン取得
       (async () => {
-        const user = await this.$axios.$get(
+        this.userinfo = await this.$axios.$get(
           `https://api.github.com/users/${process.env.GITHUBUSERID}`
         )
-        this.textContents = user.name
-        this.imageContents = `url(${user.avatar_url})`
+        const { name, avatar_url } = this.userinfo
+        const sub = "Portfolio"
+        this.textContents = name
+        this.textContents2 = sub
+        this.imageContents = `url(${avatar_url})`
+        await this.$axios.$get(avatar_url)
       })(),
       // HTML中のpreload指定された画像の読み込み完了待ち
       (() => {
@@ -385,6 +406,7 @@ export default {
       ) {
         // LoadingEnd
         this.stateClass = ["isLoaded"]
+        // this.titleTypeStart()
       } else if (
         _.includes(this.stateClass, "isLoaded") &&
         _.includes(_.toArray(evt.target.classList), "effect_visual")
@@ -400,6 +422,23 @@ export default {
           document.getElementById("bgvideo").play()
         })
       }
+    },
+    titleTypeStart() {
+      const { name } = this.userinfo
+      const sub = "Portfolio"
+      let idx = 1
+
+      const interval = setInterval(() => {
+        let idx2 = idx - name.length
+        if (idx <= name.length) {
+          this.textContents = name.substring(0, idx)
+        } else if (idx2 <= sub.length) {
+          this.textContents2 = sub.substring(0, idx2)
+        } else {
+          clearInterval(interval)
+        }
+        idx++
+      }, 50)
     }
   }
 }

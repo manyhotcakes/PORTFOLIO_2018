@@ -56,7 +56,6 @@ export default {
       return [`colorbg-${this.color}`]
     },
     indicatorLineStyle() {
-      console.log(this.processing.max, this.processing.now)
       return {
         width: `${this.processing.now / this.processing.max * 100}%`
       }

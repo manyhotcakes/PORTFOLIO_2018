@@ -104,5 +104,7 @@ onmessage　= (message) => {
       default:
         throw new Error("undefined key name")
     }
-  })()
+  })().catch(err => {
+    throw new err
+  })
 };
