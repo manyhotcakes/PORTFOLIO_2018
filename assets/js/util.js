@@ -1,24 +1,20 @@
 /* eslint-disable */
 export default {
   /**
-   * 文字列型をArrayBuffer(Uint16)に変換
+   * 文字列型をArrayBuffer(Uint8)に変換
    * @param  {[type]} str [description]
    * @return {[type]}     [description]
    */
   stringToArrayBuffer(str) {
-    return new Uint16Array(
-      [].map.call(str, function(c) {
-        return c.charCodeAt(0)
-      })
-    ).buffer
+    return new TextEncoder("utf-8").encode(str)
   },
   /**
-   * ArrayBuffer(Uint16)を文字列型に変換
+   * ArrayBuffer(Uint8)を文字列型に変換
    * @param  {[type]} str [description]
    * @return {[type]}     [description]
    */
-  arrayBufferToString(str) {
-    return String.fromCharCode.apply(null, new Uint16Array(str))
+  arrayBufferToString(buffer) {
+    return new TextDecoder("utf-8").decode(buffer)
   },
   /**
    * _obj 中の _path の位置に、 _val を書き込む
@@ -58,7 +54,8 @@ export default {
       } else {
         sendtext = sendData
       }
-      const buffer = this.stringToArrayBuffer(sendtext)
+      const uint8_array = this.stringToArrayBuffer(sendtext)
+      const buffer = uint8_array.buffer
       worker.postMessage(
         {
           key,

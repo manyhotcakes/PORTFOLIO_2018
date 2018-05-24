@@ -1,3 +1,6 @@
+import Util from "@/assets/js/util.js"
+import Worker from "@/assets/js/worker/worker.js"
+
 export default {
   props: {
     src: {
@@ -9,7 +12,8 @@ export default {
     return {
       decrypt: "",
       api: null,
-      loaded: false
+      loaded: false,
+      success: true
     }
   },
   mounted() {
@@ -31,18 +35,35 @@ export default {
   },
   methods: {
     load() {
+      /* eslint-disable */
       // const crypt = new Crypt()
       const crypt = this.$crypt
       ;(async () => {
         const { data: encrypt } = await this.$axios.$get(this.src)
-        this.decrypt = crypt.decrypt(encrypt, this.$store.getters["session/pw"])
+        this.decrypt = await this.decryptExec(encrypt)
+        // this.decrypt = crypt.decrypt(encrypt, this.$store.getters["session/pw"])
+        // console.log(hoge, this.decrypt)
         this.$el.dispatchEvent(new Event("load"))
       })().catch(res => {
         throw new Error(res)
       })
     },
-    loadend() {
+    async decryptExec(v) {
+      return await Util.webWorkerSend(new Worker, "decrypt", {
+        text: v,
+        pw: this.$store.getters["session/pw"]
+      }, true, 0)
+      .then((val) => {
+        this.loadend(true)
+        return val
+      })
+      .catch((err) => {
+        this.loadend(false)
+      })
+    },
+    loadend(success = true) {
       this.loaded = true
+      this.success = success
     }
   },
   computed: {
