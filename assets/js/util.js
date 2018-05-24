@@ -90,5 +90,10 @@ export default {
       console.error(err)
       throw err
     }
+  },
+  arrPush(_val, _push){
+    const val = _.cloneDeep(_val)
+    val.push(_push)
+    return val
   }
 }
