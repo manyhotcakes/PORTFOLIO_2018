@@ -13,12 +13,15 @@ export default {
       decrypt: "",
       api: null,
       loaded: false,
-      success: true
+      success: true,
+      isNoimage: false
     }
   },
   mounted() {
     if (!this.src) {
-      throw new Error(`${this.$el.toString()} doesnt have src prop`)
+      this.isNoimage = true
+      // throw new Error(`${this.$el.toString()} doesnt have src prop`)
+      // return
     }
     if (this.$store.getters["session/pw"]) {
       this.load()
@@ -68,7 +71,11 @@ export default {
   },
   computed: {
     decryptsrc() {
-      return this.decrypt ? `data:image/png;base64,${this.decrypt}` : ""
+      if (this.isNoimage) {
+        return "noimage.png"
+      } else {
+        return this.decrypt ? `data:image/png;base64,${this.decrypt}` : ""
+      }
     }
   }
 }
