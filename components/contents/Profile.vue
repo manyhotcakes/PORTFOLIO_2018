@@ -110,7 +110,7 @@
 .position {
   list-style: none;
   font-size: 1rem;
-  font-family: Raleway;
+  font-family: Raleway, $default-font;
   @include smartphones() {
     border-left: 1px solid black;
     padding-left: 1rem;

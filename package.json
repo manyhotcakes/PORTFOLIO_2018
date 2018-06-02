@@ -2,8 +2,31 @@
   "name": "portfolio",
   "version": "1.0.0",
   "description": "2018 my portfolio pages with Nuxt.js",
-  "author": "OkamotoTakuya <manymanyhotcakes@gmail.com>",
+  "author": "OkamotoTakuya",
   "private": true,
+  "engines" : {
+    "node" : ">=v8.11"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/manyhotcakes/PORTFOLIO_2018"
+  },
+  "keywords": [
+    "vuex",
+    "vue",
+    "nuxt",
+    "crypto",
+    "portfolio"
+  ],
+  "bugs": {
+    "url": "https://github.com/manyhotcakes/PORTFOLIO_2018/issues"
+  },
+  "contributors" : {
+    "name": "OkamotoTakuya",
+    "url": "https://github.com/manyhotcakes"
+  },
+  "homepage": "https://manyhotcakes.github.io/PORTFOLIO_2018/",
+  "license": "nolicense",
   "scripts": {
     "dev": "HOST=0.0.0.0 PORT=8080 nuxt",
     "build": "ROUTER_BASE=/PORTFOLIO_2018/ nuxt build",

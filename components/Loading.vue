@@ -81,6 +81,7 @@ $indicator-size: 5rem;
  * タイトルテキスト
  =================== */
 .title {
+  font-family: Raleway;
   position: relative;
   width: 100%;
   overflow: hidden;
