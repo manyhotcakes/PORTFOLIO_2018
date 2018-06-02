@@ -52,13 +52,27 @@ module.exports = {
     ** 共通 SASS 変数読み込み
     */
     ["nuxt-sass-resources-loader", ["@/assets/scss/variables.scss"]],
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
+    "@nuxtjs/pwa"
   ],
+  workbox: {
+    dev: true,
+    runtimeCaching: [
+      {
+        urlPattern: "https://fonts.googleapis.com/.*",
+        handler: "cacheFirst",
+        method: "GET",
+        cacheableResponse: { statuses: [0, 200] }
+      }
+    ]
+  },
   plugins: [
     "@/plugins/globals.js",
+    "@/plugins/moment.js",
     "@/plugins/axios.js",
     "@/plugins/preload.js",
-    "@/plugins/validator.js"
+    "@/plugins/validator.js",
+    "@/plugins/indexedDB.js"
   ],
   css: [{ src: "@/assets/scss/main.scss", lang: "scss" }],
   /*
@@ -111,6 +125,7 @@ module.exports = {
     GITHUBUSERID: "manyhotcakes",
     PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa",
     WORKER_MAXNUM: 4,
-    MODALPAGEHASH_PREFIX: "#modal_"
+    MODALPAGEHASH_PREFIX: "#modal_",
+    ENCRYPTIMAGECACHE_EXPIRE: 7*24*60*60 // キャッシュ有効期限。単位秒
   }
 }

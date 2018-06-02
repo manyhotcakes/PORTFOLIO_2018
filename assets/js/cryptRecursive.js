@@ -153,7 +153,6 @@ export default class CryptRecursive {
   async execPostFunc(org) {
     // ある一定量スタックに貯まれば、処理完了まで待機させる
     if (this.stack.length > WORKER_MAXNUM) {
-      console.log(this.stack, this.keystack)
       org = await this.batchPromise(org, this.stack, this.keystack)
     }
 
@@ -167,7 +166,6 @@ export default class CryptRecursive {
   }
   isExecTarget(currentkey) {
     const currendkeyjoined = currentkey.join(".")
-    console.log(currendkeyjoined)
     return !_.find(this.execIgnoreList, reg => reg.test(currendkeyjoined))
   }
   getProcessingMax(_obj) {

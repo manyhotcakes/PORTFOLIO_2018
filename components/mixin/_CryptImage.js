@@ -23,17 +23,19 @@ export default {
       // throw new Error(`${this.$el.toString()} doesnt have src prop`)
       // return
     }
-    if (this.$store.getters["session/pw"]) {
-      this.load()
-    } else {
-      this.$watch(
-        () => this.$store.getters["session/pw"],
-        newval => {
-          if (newval) {
-            this.load()
+    if (!this.isNoimage) {
+      if (this.$store.getters["session/pw"]) {
+        this.load()
+      } else {
+        this.$watch(
+          () => this.$store.getters["session/pw"],
+          newval => {
+            if (newval) {
+              this.load()
+            }
           }
-        }
-      )
+        )
+      }
     }
   },
   methods: {
@@ -42,8 +44,19 @@ export default {
       // const crypt = new Crypt()
       const crypt = this.$crypt
       ;(async () => {
-        const { data: encrypt } = await this.$axios.$get(this.src)
-        this.decrypt = await this.decryptExec(encrypt)
+        // すでに indexedDB 上に複合済みの画像データは存在しないか確認
+        const loaded = await this.$portfolioDB.get(this.src)
+        if (!_.isUndefined(loaded)) {
+          // あれば indexedDB のデータを採用
+          this.decrypt = loaded.base64
+        } else {
+          // なければ新規に取得
+          const { data: encrypt } = await this.$axios.$get(this.src)
+          this.decrypt = await this.decryptExec(encrypt)
+          if (this.decrypt) {
+            this.$portfolioDB.add(this.src, this.decrypt)
+          }
+        }
         // this.decrypt = crypt.decrypt(encrypt, this.$store.getters["session/pw"])
         // console.log(hoge, this.decrypt)
         this.$el.dispatchEvent(new Event("load"))

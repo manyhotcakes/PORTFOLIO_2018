@@ -7,8 +7,8 @@ import VueLightbox from "vue-lightbox"
 export default function(ctx, inject) {
   // crypt のグローバルインスタンス化
   const crypt = new Crypt()
-  ctx.$crypt = crypt
-  inject("crypt", crypt)
+  ctx.$crypt = crypt // 他プラグインから参照するために定義
+  inject("crypt", crypt) // コンポーネントから参照するために定義
 }
 
 Vue.mixin({

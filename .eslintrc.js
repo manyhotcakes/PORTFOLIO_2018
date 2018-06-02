@@ -26,6 +26,6 @@ module.exports = {
     "prettier/prettier": ["error", { "semi": false }]
   },
   "globals": {
-      "_": true,
+      "_": true
   }
 }

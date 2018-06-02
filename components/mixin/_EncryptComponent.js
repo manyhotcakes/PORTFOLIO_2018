@@ -15,7 +15,7 @@ export default {
       loadend: false,
       loadingProcessing: {
         now: 0,
-        max: 0
+        max: 1
       }
     }
   },
@@ -60,8 +60,8 @@ export default {
         this.$set(this.loadingProcessing, "now", _val)
       }).setWorkerInstance(new Worker)
 
+      // 現在の読み込み進捗度の最大値取得
       const max = cryptRecursive.getProcessingMax(encrypts)
-      console.log("faaaaaaaaaa", max)
       this.$set(this.loadingProcessing, "max", max)
       let decrypts
       // 複合フラグがコンポーネントに指定されていれば、複合

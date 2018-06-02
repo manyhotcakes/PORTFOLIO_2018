@@ -67,6 +67,9 @@ class Crypt {
    */
   decrypt(encryptedData, _pw) {
     /* eslint-disable */
+    if (!encryptedData) {
+      throw new Error("decrypt: empty data")
+    }
     const [ivStr, saltStr, encryptStr] = encryptedData.split(":")
     const iv = enc.Hex.parse(ivStr)
     const salt = enc.Hex.parse(saltStr)
