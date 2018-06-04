@@ -127,14 +127,14 @@ export default {
   },
   methods: {
     close() {
-      this.$store.commit("window/setModalData", {[this.contentKey]:{visible: false}})
-      this.$store.commit("window/setScrollStop", false)
-      this.$router.go(-1)
-    },
-    // show() {
-    //   this.$store.commit("window/setModalData", {[this.contentKey]:{visible: true}})
-    //   this.$store.commit("window/setScrollStop", true)
-    // }
+      this.$nextTick(() => {
+        if (this.$route.hash.indexOf(process.env.MODALPAGEHASH_PREFIX) === 0) {
+          this.$store.commit("window/setModalData", {[this.contentKey]:{visible: false}})
+          this.$store.commit("window/setScrollStop", false)
+          this.$router.go(-1)
+        }
+      })
+    }
   },
   computed: {
     ...mapGetters({
