@@ -25,17 +25,7 @@ module.exports = {
         content: "2018 my portfolio pages with Nuxt.js"
       }
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Raleway"
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css"
-      }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   /*
   ** Customize the progress bar color

@@ -90,7 +90,7 @@ $indicator-size: 5rem;
   white-space: nowrap;
   text-align: center;
   width: 100vw;
-  height: 3.5rem;
+  height: 4rem;
   &_char {
     opacity: 0;
     @for $key from 0 through 30 {
@@ -267,6 +267,7 @@ $indicator-size: 5rem;
 </template>
 <script>
 import { mapGetters } from "vuex"
+import webfontloader from "webfontloader"
 const TIMEOUT = 1000 //5000; TODO 戻す
 
 export default {
@@ -361,6 +362,20 @@ export default {
           setTimeout(() => {
             resolve()
           }, TIMEOUT)
+        })
+      })(),
+      // フォントファイルの読み込み完了待ち
+      (() => {
+        return new Promise(resolve => {
+          webfontloader.load({
+            google: {
+              families: ["Rounded Mplus 1c", "Raleway"]
+            },
+            active: function() {
+              console.log("web font active")
+              resolve()
+            }
+          })
         })
       })(),
       // 背景動画の読み込み完了もしくはエラー待ち
