@@ -23,7 +23,7 @@
     <section class="intro l-intro">
       <h3 class="subtitle"><span>静的サイトで暗号化コンテンツを提供。</span></h3>
       <p class="intro_line">開発実績となる「Works」には、広く公開すべきではない情報が含まれているため、暗号化を行い提供をしています。
-      <a-out href="https://github.com/manyhotcakes/PORTFOLIO_2018" >GitHub上のソース</a-out>を見ていただければ<b>開発実績の文章/画像ともに、平文で記載されている箇所がひとつもない</b>ことをご確認いただけるかと思います。</p>
+      <a-out href="https://github.com/manyhotcakes/PORTFOLIO_2018" >GitHub上のソース</a-out>を見ていただければ<b>開発実績の一部文章（タイトルやこだわり等）と画像ともに、平文で記載されている箇所がひとつもない</b>ことをご確認いただけるかと思います。</p>
       <p class="intro_line">暗号化方式は AES-128。フロントエンドで行う復号化は処理時間がかかってしまいますので、 WebWorker を用いてバックグラウンドで並列/非同期処理を行っております。</p>
     </section>
     <section class="intro l-intro">

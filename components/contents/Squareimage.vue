@@ -4,7 +4,10 @@ $time: 0.3s;
   width: 100%;
   position: relative;
   overflow: hidden;
+  border: solid 1px rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
   animation: fadeIn 0.4s ease 0s 1 normal;
+  box-sizing: border-box;
   &:before {
     content: "";
     padding-top: 100%;

@@ -10,7 +10,7 @@
       <squareimage v-for="(item, key) in items" :key="key"
                    :src="item.topimage"
                    :title="item.title"
-                   class="l-imagelist_item"
+                   class="l-imagelist_item l-imagelist_item-3separate"
                    @click.native="openModal(item, key)"/>
     </div>
     <loading v-if="!loadend" :color="color" :processing="loadingProcessing"/>

@@ -48,52 +48,6 @@
       background: $color2;
     }
   }
-  // &_left {
-  //   top: 0;
-  //   left: 0;
-  //   width: 50%;
-  //   transform-origin: left top;
-  //   & > img {
-  //     transform-origin: left top;
-  //     filter: sepia(1) hue-rotate(70deg) brightness(0.9) blur(2px);
-  //   }
-  // }
-  // &_right {
-  //   right: 0;
-  //   bottom: 0;
-  //   width: 50%;
-  //   transform-origin: right bottom;
-  //   & > img {
-  //     transform-origin: right bottom;
-  //     filter: sepia(1) hue-rotate(-10deg) brightness(0.9) blur(2px);
-  //   }
-  // }
-  // &_left,
-  // &_right {
-  //   position: absolute;
-  //   overflow: hidden;
-  //   & > img {
-  //     width: 100%;
-  //     height: 100%;
-  //     transform: scale(2);
-  //     object-fit: contain;
-  //   }
-  // }
-  // &_center {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   height: 100%;
-  //   overflow: hidden;
-  //   transform-origin: center;
-  //   transform: skewX(-56deg);
-  //   & > img {
-  //     transform-origin: center;
-  //     transform: skewX(56deg);
-  //     width: 100%;
-  //     filter: grayscale(1);
-  //   }
-  // }
 }
 .name {
   @include h2;
@@ -147,7 +101,6 @@
         <div class="topimage_ribbon topimage_ribbon-right"/>
         <img class="topimage_center" src="profile_01.jpg">
       </div>
-      <!-- <img class="topimage_right" src="profile_01.jpg"> -->
     </div>
     <h2 class="l-name name">岡本 拓也<span class="name_sub">(OKAMOTO Takuya)</span></h2>
     <ul class="l-position position">

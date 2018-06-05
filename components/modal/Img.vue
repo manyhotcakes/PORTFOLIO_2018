@@ -29,7 +29,7 @@
       <div class="l-tworow_col l-tworow_col-right l-imagelist">
         <squareimage v-for="(item, key) in items" :key="key"
                      :src="item.squareimage" :title="item.title"
-                     class="l-imagelist_item"/>
+                     class="l-imagelist_item l-imagelist_item-3separate"/>
       </div>
     </div>
   </article>

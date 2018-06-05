@@ -35,11 +35,11 @@
         </dd>
       </dl>
       <!-- 画像 -->
-      <section class="l-tworow_col l-tworow_col-second l-imagelist">
+      <section v-if="contents.images.length" class="l-tworow_col l-tworow_col-second l-imagelist">
         <squareimage v-for="(item, idx) in contents.images" :key="idx"
                      :src="item.image" :title="item.title"
                      imageType="CryptImageWithLb"
-                     class="l-imagelist_item"/>
+                     class="l-imagelist_item l-imagelist_item-2separate"/>
       </section>
       <!-- /画像 -->
     </div>
@@ -48,7 +48,7 @@
       <div class="sublist">
         <div v-for="(item, key) in contents.particular" :key="key">
           <h4 class="particular_title" v-text="item.title"/>
-          <div>
+          <div class="particular_body">
             <p v-for="(item_c, key_c) in item.body" :key="key_c" v-html="item_c" class="particular_body"/>
           </div>
         </div>
@@ -77,16 +77,16 @@
   &_col {
     &-first {
       // PC:左側 SP:下側
-      flex: 0 0 30%;
-      padding-right: $sz-line-section;
+      flex: 0 0 40%;
+      padding-right: $sz-line-section / 2;
       @include smartphones() {
         padding-right: 0;
       }
     }
     &-second {
       // PC:右側 SP:上側
-      flex: 0 0 70%;
-      padding-left: $sz-line-section;
+      flex: 0 0 60%;
+      padding-left: $sz-line-section / 2;
       @include smartphones() {
         margin-bottom: $sz-group-section;
         padding-left: 0;
