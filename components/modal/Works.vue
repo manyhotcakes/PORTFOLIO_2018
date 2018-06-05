@@ -122,7 +122,7 @@
   &_body {
     white-space: pre-wrap;
     margin-top: ($sz-line-section/2);
-    text-indent: 1rem;
+    // text-indent: 1rem;
     padding-left: 1rem;
     line-height: 1.4rem;
     &:first-child {

@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/pwa": "^2.0.8",
     "crypto-js": "^3.1.9-1",
     "idb": "^2.1.2",

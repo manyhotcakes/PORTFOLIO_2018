@@ -99,7 +99,6 @@
 </style>
 
 <script>
-import Histories from "~/components/contents/Histories.vue"
 import Lock from "~/components/contents/Lock.vue"
 export default {
   // TODO 開発終了後に戻す
@@ -114,8 +113,8 @@ export default {
   components: {
     Profile: () => import("~/components/contents/Profile.vue"),
     About: () => import("~/components/contents/About.vue"),
+    Skill: () => import("~/components/contents/Skill.vue"),
     Works: () => import("~/components/contents/Works.vue"),
-    Histories,
     Lock
   },
   props: {

@@ -369,10 +369,21 @@ export default {
         return new Promise(resolve => {
           webfontloader.load({
             google: {
-              families: ["Rounded Mplus 1c", "Raleway"]
+              families: ["Raleway"]
             },
+            custom: {
+              families: ["Rounded Mplus 1c"],
+              urls: [
+                "https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css"
+              ]
+            },
+            timeout: 6000,
             active: function() {
               console.log("web font active")
+              resolve()
+            },
+            inactive: function() {
+              console.warn("web font inactive")
               resolve()
             }
           })

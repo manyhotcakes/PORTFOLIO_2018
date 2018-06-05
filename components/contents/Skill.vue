@@ -1,203 +1,186 @@
 <style lang="scss" scoped>
-.l-topimage {
+.l-skill {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   width: 100%;
-  height: auto;
-  margin-bottom: $sz-contents-section;
-}
-.l-name {
-  // margin-bottom: $sz-group-section;
-}
-.l-position {
-  margin-bottom: $sz-contents-section;
-}
-.topimage {
-  position: relative;
-  user-select: none;
-  overflow: hidden;
-  &_overflow {
-    &:before {
-      content: "";
-      display: block;
-      padding-top: 2 / 3 * 100%;
+  &_block {
+    flex: 0 0 calc(50% - 0.2rem / 2);
+    &-head {
+      padding-bottom: $sz-line-section;
+    }
+    &-center {
+      flex: 0 0 0.2rem;
+      background: $background-color;
     }
   }
-  &_center {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-  &_ribbon {
-    width: 20vw;
-    height: 130%;
-    position: absolute;
-    transform-origin: center;
-    transform: rotate(-12.5deg);
-    background: red;
-    z-index: 1;
-    &-left {
-      left: calc(-20vw * #{$slashcos});
-      top: -1vw;
-      transform-origin: right top;
-      background: $color2;
-    }
-    &-right {
-      right: calc(-20vw * #{$slashcos});
-      bottom: -1vw;
-      transform-origin: left bottom;
-      background: $color2;
-    }
-  }
-  // &_left {
-  //   top: 0;
-  //   left: 0;
-  //   width: 50%;
-  //   transform-origin: left top;
-  //   & > img {
-  //     transform-origin: left top;
-  //     filter: sepia(1) hue-rotate(70deg) brightness(0.9) blur(2px);
-  //   }
-  // }
-  // &_right {
-  //   right: 0;
-  //   bottom: 0;
-  //   width: 50%;
-  //   transform-origin: right bottom;
-  //   & > img {
-  //     transform-origin: right bottom;
-  //     filter: sepia(1) hue-rotate(-10deg) brightness(0.9) blur(2px);
-  //   }
-  // }
-  // &_left,
-  // &_right {
-  //   position: absolute;
-  //   overflow: hidden;
-  //   & > img {
-  //     width: 100%;
-  //     height: 100%;
-  //     transform: scale(2);
-  //     object-fit: contain;
-  //   }
-  // }
-  // &_center {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   height: 100%;
-  //   overflow: hidden;
-  //   transform-origin: center;
-  //   transform: skewX(-56deg);
-  //   & > img {
-  //     transform-origin: center;
-  //     transform: skewX(56deg);
-  //     width: 100%;
-  //     filter: grayscale(1);
-  //   }
-  // }
 }
-.name {
+.notice {
   @include h2;
-  &_sub {
-    font-family: Raleway;
-    margin-left: 0.5rem;
-    font-weight: normal;
-    @include smartphones() {
-      display: block;
-      font-size: 2rem;
-    }
-  }
+  font-family: Railway;
+  text-align: center;
+  margin: auto;
+  padding-bottom: $sz-line-section;
 }
-.position {
-  list-style: none;
-  font-size: 1rem;
-  font-family: Raleway;
-  @include smartphones() {
-    border-left: 1px solid black;
-    padding-left: 1rem;
+.skill_wrap {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  &:last-child {
+    margin-bottom: 0;
   }
   &_item {
-    display: inline-block;
-    @include smartphones() {
-      display: block;
-    }
-    &-prime {
-      font-weight: bold;
-    }
-    &:not(:last-child) {
-      &:after {
-        margin: 0 1rem;
-        border-left: solid 1px black;
-        content: "";
-        @include smartphones() {
-          border-left: none;
-        }
-      }
+    width: 100%;
+    &-bar {
+      position: relative;
+      height: 2rem;
     }
   }
 }
-.topic {
-  @include ul;
+.skill_bar {
+  position: absolute;
+  height: 100%;
+  bottom: 0;
+  border: solid 0.5px #fff;
+}
+.skill_name {
+  @include h4;
+  white-space: nowrap;
+  padding-top: 0.5rem;
+  margin: auto;
+}
+.skill_score {
+  white-space: nowrap;
+  color: white;
+  line-height: 2rem;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  width: 100%;
+}
+.skill {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-family: Railway;
+  &-right {
+    align-items: flex-start;
+    padding-left: 0.5rem;
+    & .skill_bar {
+      border-radius: 0 4px 4px 0;
+      left: 0;
+      background: $color3;
+    }
+    & .skill_name {
+      text-align: left;
+    }
+    & .skill_score {
+      text-align: left;
+      padding-left: 0.1rem;
+    }
+  }
+  &-left {
+    align-items: flex-end;
+    padding-right: 0.5rem;
+    & .skill_bar {
+      border-radius: 4px 0 0 4px;
+      right: 0;
+      background: $color1;
+    }
+    & .skill_name {
+      text-align: right;
+    }
+    & .skill_score {
+      text-align: right;
+      padding-right: 0.1rem;
+    }
+  }
 }
 </style>
 <template>
   <article class="l-body">
-    <div class="l-topimage topimage">
-      <div class="topimage_overflow">
-        <div class="topimage_ribbon topimage_ribbon-left"/>
-        <div class="topimage_ribbon topimage_ribbon-right"/>
-        <img class="topimage_center" src="profile_01.jpg">
+    <!-- ヘッダ部 -->
+    <head class="l-skill">
+      <div class="l-skill_block l-skill_block-head">
+        <div class="notice">FrontEnd Skill</div>
+        <div class="scoregage_gage"/>
       </div>
-      <!-- <img class="topimage_right" src="profile_01.jpg"> -->
-    </div>
-    <h2 class="l-name name">岡本 拓也<span class="name_sub">(OKAMOTO Takuya)</span></h2>
-    <ul class="l-position position">
-      <li class="position_item position_item-prime">フロントエンドエンジニア</li>
-      <li class="position_item position_item-prime">サーバサイドエンジニア</li>
-      <li class="position_item">Osaka, Japan</li>
-    </ul>
-    <div class="intro l-intro">
-      <p class="intro_line">1988年兵庫県生まれ。関西学院大学卒業後、石川県のゲーム会社へゲームプログラマーとして就職しました。その後大阪府のウェブ会社に Web エンジニアとして転職。
-      サービス開発に携わるなかで、バックエンド、フロントエンド、インフラ領域の開発を経験しました。
-      数年の経験の後、さらにスキルを伸ばすべく顧客との折衝領域が存在する Web サイト受託開発企業に転職。 いくつかの案件でフロントエンジニアを経験したのち、プロジェクトのマネジメントを任され、開発案件/保守案件と複数の案件に従事しました。</p>
-      <p class="intro_line">柔軟性こそ正義。思い込みを避け、あらゆる可能性を考え、ソリューションを提供することが大事と考えています。</p>
-    </div>
-    <section class="intro l-intro">
-      <h3 class="subtitle"><span>PM,PL,SE,PG の経験から導き出すバランス感覚が強み。</span></h3>
-      <ul class="topic">
-        <li v-for="(item, key) in topics1" :key="key" v-html="item"/>
-      </ul>
-    </section>
-    <section class="intro l-intro">
-      <h3 class="subtitle"><span>特色ある開発経験。</span></h3>
-      <ul class="topic">
-        <li v-for="(item, key) in topics2" :key="key" v-html="item"/>
-      </ul>
+      <div class="l-skill_block l-skill_block-center"/>
+      <div class="l-skill_block l-skill_block-head">
+        <div class="notice">BackEnd Skill</div>
+        <div class="scoregage_gage"/>
+      </div>
+    </head>
+    <!-- /ヘッダ部 -->
+    <section class="l-skill">
+      <div class="l-skill_block skill skill-left">
+        <div v-for="(v, k) in topics1" :key="k" class="skill_wrap">
+          <div class="skill_wrap_item">
+            <div class="skill_name" v-html="v.name"/>
+          </div>
+          <div class="skill_wrap_item-bar">
+            <div :style="getBarStyle(v.score)" class="skill_bar">
+              <div class="skill_score" v-html="v.score"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="l-skill_block l-skill_block-center"/>
+      <div class="l-skill_block l-skill skill skill-right">
+        <div v-for="(v, k) in topics2" :key="k" class="skill_wrap">
+          <div class="skill_wrap_item">
+            <div class="skill_name" v-html="v.name"/>
+          </div>
+          <div class="skill_wrap_item-bar">
+            <div :style="getBarStyle(v.score)" class="skill_bar">
+              <div class="skill_score" v-html="v.score"/>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </article>
 </template>
 
 <script>
-/* eslint-disable */
-// import mixin from "~/components/mixin/_EncryptComponent.js"
 export default {
-  name: "Profile",
-  // mixins: [mixin],
-  data: function() {
+  name: "Skill",
+  data() {
     return {
       topics1: [
-        "ウォーターフォール型開発における全領域と、それ以降の運用/保守の経験",
-        "多くの一般ユーザ向けサイトの構築/保守案件に開発者/PMそれぞれの立場から従事",
-        "PM としてプロジェクト期間約3ヶ月の短期案件から約1年の案件中長期案件まで携わる",
-        "新規案件受注活動として、営業同行しヒアリング・企画プレゼン・見積もりなどの経験",
-        "客先との MTG 中にコーディングを行い要件定義を進ませる"
+        { name: "JavaScript(ES2015-)", score: 100 },
+        { name: "HTML5", score: 100 },
+        { name: "CSS3/SCSS", score: 100 },
+        { name: "jQuery", score: 100 },
+        { name: "Vue.js", score: 80 },
+        { name: "Nuxt.js", score: 70 },
+        { name: "AngularJS", score: 70 },
+        { name: "SVG", score: 50 },
+        { name: "gulp.js", score: 50 },
+        { name: "webpack", score: 40 },
+        { name: "CoffeeScript", score: 30 },
+        { name: "Angular", score: 20 }
       ],
       topics2: [
-        "月間数十億 PV 以上のコンテンツ配信サービスにおける設計/開発",
-        "iOS 向け課金対応アプリの API 開発",
-        "Nginx を用いた巨大ファイル向け CDN 開発",
-        "SVG を駆使した高解像度の印刷物生成サイト設計/開発",
-        "GPGPU を用いたリアルタイムレイトレーシングの開発"
+        { name: "MySQL", score: 100 },
+        { name: "Linux/Bash", score: 90 },
+        { name: "PHP", score: 80 },
+        { name: "Lua", score: 70 },
+        { name: "Laravel", score: 60 },
+        { name: "NoSQL", score: 60 },
+        { name: "Nginx/Apache", score: 50 },
+        { name: "AWS", score: 30 },
+        { name: "Selenium WebDriver", score: 30 },
+        { name: "Solr", score: 15 },
+        { name: "Ruby on Rails", score: 10 },
+        { name: "C/C++", score: 10 }
       ]
+    }
+  },
+  methods: {
+    getBarStyle(_val) {
+      return {
+        width: `${_val}%`
+      }
     }
   }
 }
