@@ -11,5 +11,5 @@ npm-debug.log
 dist
 
 # 暗号化前のデータ
-.crypts
+.crypt
 sw.*
