@@ -19,7 +19,6 @@ export const state = function() {
   _.forEach(modalContentKeys, val => {
     data.modal[val] = _.cloneDeep(modalContentInitObject)
   })
-  console.log(data)
   return data
 }
 export const mutations = {

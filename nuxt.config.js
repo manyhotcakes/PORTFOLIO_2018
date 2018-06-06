@@ -1,5 +1,4 @@
 const webpack = require("webpack")
-
 module.exports = {
   /*
   ** Headers of the page
@@ -43,10 +42,16 @@ module.exports = {
     */
     ["nuxt-sass-resources-loader", ["@/assets/scss/variables.scss"]],
     "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+    [
+      "@nuxtjs/google-analytics",
+      {
+        id: "UA-120433909-1"
+      }
+    ]
   ],
   workbox: {
-    dev: true,
+    dev: process.env.NODE_ENV === "development",
     runtimeCaching: [
       {
         urlPattern: "https://fonts.googleapis.com/.*",
@@ -117,6 +122,6 @@ module.exports = {
     WORKER_MAXNUM: 4,
     MODALPAGEHASH_PREFIX: "#modal_",
     ENCRYPTIMAGECACHE_EXPIRE: 7*24*60*60, // キャッシュ有効期限。単位秒
-    ENCRYPTIMAGE_VERSION: "v1.0.1" // 暗号化画像ファイルのポストフィックス
+    PORTFOLIO_VERSION: "v0_9_0" // バージョン。暗号化画像ファイルのポストフィックスにも使用される
   }
 }

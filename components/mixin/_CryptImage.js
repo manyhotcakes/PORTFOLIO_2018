@@ -43,7 +43,7 @@ export default {
       /* eslint-disable */
       // const crypt = new Crypt()
       const crypt = this.$crypt
-      const src = `${this.src}?${process.env.ENCRYPTIMAGE_VERSION}`
+      const src = `${this.src}?${process.env.PORTFOLIO_VERSION}`
       ;(async () => {
         // すでに indexedDB 上に複合済みの画像データは存在しないか確認
         const loaded = await this.$portfolioDB.get(src)

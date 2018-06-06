@@ -11,7 +11,6 @@ class PortfolioDB {
   init() {
     try {
       return idb.open(this.dbName, 1, db => {
-        console.log("running onupgradeneeded");
         if (!db.objectStoreNames.contains(this.dbObjectName)) {
           var storeOS = db.createObjectStore(this.dbOSName,
             {keyPath: 'path'});
@@ -19,7 +18,6 @@ class PortfolioDB {
       })
       // 成功時
       .then(db => {
-        console.log('db open success', db);
         this.expireCheck()
         return new Promise(resolve => resolve(db))
       })

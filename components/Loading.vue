@@ -300,7 +300,6 @@ export default {
       return _.includes(this.stateClass, "isLoaded")
     },
     titleContentsChars() {
-      console.log(this.isLoaded || this.isFinish, "titleContentsChars")
       return this.isLoaded || this.isFinish
         ? Array.from(Array(30).keys()).map(v => [
             "title_contents_char",
@@ -379,7 +378,6 @@ export default {
             },
             timeout: 6000,
             active: function() {
-              console.log("web font active")
               resolve()
             },
             inactive: function() {
@@ -400,7 +398,6 @@ export default {
       (() => {
         return new Promise(function(resolve) {
           setTimeout(resolve, 1000, "foo")
-          console.log("settimeout loaded")
         })
       })()
     ]
@@ -408,8 +405,6 @@ export default {
     return (async () => {
       // 上記のタスクがすべて完了したタイミングで、ロード表現の終了
       await Promise.all(initTasks) //TODO コメント解除
-      // Promise.all(initTasks) //TODO 削除
-      // this.$store.commit("preload/finish") //TODO 削除
       this.stateClass.push("isEnd")
       this.stateClass = _.uniq(this.stateClass)
     })().catch(res => {

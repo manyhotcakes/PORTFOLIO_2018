@@ -32,9 +32,6 @@ export default {
     }
   },
   methods: {
-    getTitle(key) {
-      console.log(key)
-    },
     openModal(item) {
       this.$store.commit("window/setModalData", {
         works: {
