@@ -3,7 +3,7 @@
 
 <template>
   <div class="wrap">
-    <lightbox :src="decryptsrc" :caption="caption" show-index="false">
+    <lightbox :src="decryptsrc" :caption="caption" show-index="false" album="albumA">
       <img v-if="decryptsrc" :src="decryptsrc" class="cryptImage_img" @load="loadend" >
     </lightbox>
     <div v-if="!loaded" class="cryptImage_img cryptImage_loading">

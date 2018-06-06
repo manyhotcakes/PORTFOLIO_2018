@@ -43,18 +43,19 @@ export default {
       /* eslint-disable */
       // const crypt = new Crypt()
       const crypt = this.$crypt
+      const src = `${this.src}?${process.env.ENCRYPTIMAGE_VERSION}`
       ;(async () => {
         // すでに indexedDB 上に複合済みの画像データは存在しないか確認
-        const loaded = await this.$portfolioDB.get(this.src)
+        const loaded = await this.$portfolioDB.get(src)
         if (!_.isUndefined(loaded)) {
           // あれば indexedDB のデータを採用
           this.decrypt = loaded.base64
         } else {
           // なければ新規に取得
-          const { data: encrypt } = await this.$axios.$get(this.src)
+          const { data: encrypt } = await this.$axios.$get(src)
           this.decrypt = await this.decryptExec(encrypt)
           if (this.decrypt) {
-            this.$portfolioDB.add(this.src, this.decrypt)
+            this.$portfolioDB.add(src, this.decrypt)
           }
         }
         // this.decrypt = crypt.decrypt(encrypt, this.$store.getters["session/pw"])

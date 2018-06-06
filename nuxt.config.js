@@ -116,6 +116,7 @@ module.exports = {
     PASSWORDHASH: "bc523a237636533c0f71d670a13c20fa",
     WORKER_MAXNUM: 4,
     MODALPAGEHASH_PREFIX: "#modal_",
-    ENCRYPTIMAGECACHE_EXPIRE: 7*24*60*60 // キャッシュ有効期限。単位秒
+    ENCRYPTIMAGECACHE_EXPIRE: 7*24*60*60, // キャッシュ有効期限。単位秒
+    ENCRYPTIMAGE_VERSION: "v1.0.1" // 暗号化画像ファイルのポストフィックス
   }
 }
